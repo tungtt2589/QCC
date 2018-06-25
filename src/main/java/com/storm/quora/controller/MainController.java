@@ -94,8 +94,8 @@ public class MainController {
 //        return "view";
 //    }view
 
-    @GetMapping("/view/{id}")
-    public String detailView(@PathVariable("id") Long id, Model model) throws Exception {
+    @GetMapping(value = "/view", params = "id")
+    public String detailView(@RequestParam("id") Long id, Model model) throws Exception {
 //        System.out.println("sdvfsdvsdvdv " + id);
         List<AnswerDTO> answerDTOS = null;
         questionId = id.toString();
@@ -125,7 +125,7 @@ public class MainController {
             System.out.println("Not successs");
         }
 //        System.out.println("Date planted: " + bean.getContent()); //in reality, you'd use a logger instead :)
-        return "redirect:";
+        return "redirect:/";
     }
 
     @PostMapping("/view/save")
@@ -137,6 +137,6 @@ public class MainController {
             System.out.println("Not successs");
         }
 //        System.out.println("Date planted: " + bean.getContent()); //in reality, you'd use a logger instead :)
-        return "redirect:";
+        return "redirect:/view?id=" + questionId;
     }
 }

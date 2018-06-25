@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="posttext pull-left" th:object="${question}">
-                <h2 th:text="${question.content}">10 Kids Unaware of Their Halloween Costume</h2>
+                <h2 th:text="${question.content}"></h2>
                 <!--<p>Today, we're looking at three particularly interesting stories. Pinterest added a new-->
                     <!--location-based-->
                     <!--feature on Wednesday that uses Place Pins as a way to map out vacations and favorite areas.-->
@@ -119,8 +119,8 @@
                 </div>
                 <div class="posttext pull-left">
                     <div class="textwraper">
-                        <div class="postreply">Post a Reply</div>
-                        <textarea th:name="content" id="reply" placeholder="Type your message here"></textarea>
+                        <div class="postreply">Câu trả lời</div>
+                        <textarea th:name="content" id="reply" placeholder="Nhập câu trả lời"></textarea>
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -133,7 +133,7 @@
 
                 <div class="pull-right postreply">
                     <div class="pull-left smile"><a href="#"><i class="fa fa-smile-o"></i></a></div>
-                    <div class="pull-left"><button type="submit" class="btn btn-primary">Post Reply</button></div>
+                    <div class="pull-left"><button type="submit" class="btn btn-primary">Đăng</button></div>
                     <div class="clearfix"></div>
                 </div>
 
