@@ -439,12 +439,35 @@ td.chbox {
 .post .posttext {
     width: 85%;
     padding-right: 30px;
+    /*padding-top: 20px;*/
+    /*padding-bottom: 15px;*/
+
+    color: #989c9e;
+    font-size: 14px;
+    font-family: 'Open Sans Light', sans-serif;   
+    line-height: 25px;
+}
+
+.post .questiontext {
+    width: 85%;
+    padding-right: 30px;
     padding-top: 20px;
     padding-bottom: 15px;
 
     color: #989c9e;
     font-size: 14px;
-    font-family: 'Open Sans Light', sans-serif;   
+    font-family: 'Open Sans Light', sans-serif;
+    line-height: 25px;
+}
+
+.post .usertext {
+    width: 85%;
+    padding-right: 30px;
+    padding-top: 20px;
+
+    color: #989c9e;
+    font-size: 14px;
+    font-family: 'Open Sans Light', sans-serif;
     line-height: 25px;
 }
 

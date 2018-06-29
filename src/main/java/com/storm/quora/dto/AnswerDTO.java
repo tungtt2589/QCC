@@ -13,6 +13,7 @@ public class AnswerDTO extends BaseDTO implements Serializable {
     private String content;
     private String createdTime;
     private String editedTime;
+    private String diffTime;
     private long statusId;
 
     public long getQuestionId() {
@@ -69,5 +70,13 @@ public class AnswerDTO extends BaseDTO implements Serializable {
 
     public void setStatusId(long statusId) {
         this.statusId = statusId;
+    }
+
+    public String getDiffTime() {
+        return diffTime;
+    }
+
+    public void setDiffTime(String diffTime) {
+        this.diffTime = diffTime;
     }
 }

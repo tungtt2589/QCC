@@ -44,24 +44,30 @@ public class MainController {
 //        return modelAndView;
 //    }
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(Model model) {
-//        List<TopicDTO> topics = null;
-//        try {
-//            topics = service.getAllTopic();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        model.addAttribute("topics", topics);
+    public ModelAndView index(@ModelAttribute("topicid") String topicId) {
+        List<TopicDTO> topics = null;
         questions = new ArrayList<>();
         questions = null;
         try {
             questions = questionService.getAllQuestion();
+            topics = service.getAllTopic();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        model.addAttribute("questions", questions);
-        return "index";
+        topicId = topicId;
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("questions", questions);
+        modelAndView.addObject("topics", topics);
+        modelAndView.setViewName("index");
+        return modelAndView;
     }
+
+//    @RequestMapping(value = "/", method = RequestMethod.GET)
+//    public String indexSelect(@RequestParam("topicid") String topicId) {
+//        topicId = topicId;
+//        System.out.printf("asfafc "+topicId);
+//        return "redirect:/";
+//    }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String test() {
@@ -82,6 +88,7 @@ public class MainController {
 //            e.printStackTrace();
 //        }
 //        model.addAttribute("questions", questions);
+
 //    @RequestMapping(value = "/view", method = RequestMethod.GET)
 //    public String viewTopic(Model model) {
 //        List<AnswerDTO> answerDTOS = null;
@@ -95,8 +102,9 @@ public class MainController {
 //    }view
 
     @GetMapping(value = "/view", params = "id")
-    public String detailView(@RequestParam("id") Long id, Model model) throws Exception {
+    public ModelAndView detailView(@RequestParam("id") Long id, Model model) throws Exception {
 //        System.out.println("sdvfsdvsdvdv " + id);
+        ModelAndView modelAndView = new ModelAndView();
         List<AnswerDTO> answerDTOS = null;
         questionId = id.toString();
         try {
@@ -104,9 +112,12 @@ public class MainController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        model.addAttribute("answers", answerDTOS);
-        model.addAttribute("question", questionService.getQuestionById(id));
-        return "view";
+        modelAndView.addObject("answers", answerDTOS);
+        QuestionDTO questionDTO = questionService.getQuestionById(id);
+        modelAndView.addObject("question", questionDTO);
+
+        modelAndView.setViewName("view");
+        return modelAndView;
     }
 
 
@@ -117,26 +128,30 @@ public class MainController {
 //    }
 //
     @PostMapping("/create/save")
-    public String showPage(@ModelAttribute("createQuestion") QuestionDTO questionDTO) throws Exception {
-        int i = questionService.createQuestion(questionDTO.getContent());
+    public ModelAndView showPage(@ModelAttribute("createAnswer") QuestionDTO questionDTO) throws Exception {
+        ModelAndView modelAndView = new ModelAndView();
+        int i = questionService.createQuestion(questionDTO.getContent(), Long.toString(questionDTO.getTopicId()), questionDTO.getDescription());
         if (i == 1){
             System.out.println("Success");
         }else {
             System.out.println("Not successs");
         }
+        modelAndView.setViewName("redirect:/");
 //        System.out.println("Date planted: " + bean.getContent()); //in reality, you'd use a logger instead :)
-        return "redirect:/";
+        return modelAndView;
     }
 
     @PostMapping("/view/save")
-    public String createAnswer(@ModelAttribute("createAnswer") AnswerDTO answerDTO) throws Exception {
+    public ModelAndView createAnswer(@ModelAttribute("createAnswer") AnswerDTO answerDTO) throws Exception {
+        ModelAndView modelAndView = new ModelAndView();
         int i = answerService.createAnswer(questionId, answerDTO.getContent());
         if (i == 1){
             System.out.println("Success");
         }else {
             System.out.println("Not successs");
         }
+        modelAndView.setViewName("redirect:/view?id=" + questionId);
 //        System.out.println("Date planted: " + bean.getContent()); //in reality, you'd use a logger instead :)
-        return "redirect:/view?id=" + questionId;
+        return modelAndView;
     }
 }
