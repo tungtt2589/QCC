@@ -24,7 +24,7 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-    <header class="main-header">
+    <header id="header" class="main-header" style="background-color: white">
         <!--<div th:replace="/fragments/header.html"></div>-->
         <div class="container-fluid">
             <div class="headernav">
@@ -129,6 +129,7 @@
 
         </div>
     </header>
+    <div id="messagediv" th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
     <!--CONTENT-->
     <div class="container">
         <div class="row">
@@ -152,7 +153,7 @@
                         <!--</ul>-->
                         <table class="cats" th:each="topic : ${topics}">
                             <tr>
-                                <a href="#"><span th:text="${topic.name}"></span></a>
+                                <a th:href="@{/(topic_id=${topic.topicId})}"><span th:text="${topic.name}"></span></a>
                             </tr>
                         </table>
                     </div>
@@ -270,12 +271,31 @@
     <!-- get jQuery from the google apis -->
     <script type="text/javascript" th:src="@{ajax/jquery.js}"></script>
 
+    <script>
+        window.onscroll = function() {myFunction()};
 
+        var header = document.getElementById("header");
+        var sticky = header.offsetTop;
+
+        function myFunction() {
+            if (window.pageYOffset > sticky) {
+                header.classList.add("sticky");
+            } else {
+                header.classList.remove("sticky");
+            }
+        }
+    </script>
     <!-- SLIDER REVOLUTION 4.x SCRIPTS  -->
     <script type="text/javascript" th:src="@{rs-plugin/js/jquery.themepunch.plugins.min.js}"></script>
     <script type="text/javascript" th:src="@{rs-plugin/js/jquery.themepunch.revolution.min.js}"></script>
 
     <script th:src="@{js/bootstrap.min.js}"></script>
+
+<script>
+    $( document ).ready(function() {
+        $("#messagediv").delay(3000).fadeOut("slow");
+    });
+</script>
 
 
     <script type="text/javascript">

@@ -78,6 +78,54 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public List<QuestionDTO> getAllQuestionByTopic(Long topicId) throws Exception {
+        List<QuestionDTO> questions = new ArrayList<>();
+
+        HttpResponse<JsonNode> response = Unirest.post("http://171.244.3.242:7070/getAllQuestionByTopic")
+                .header("content-type", "application/json")
+                .body("{\n \"topic_id\":\""+topicId+"\"\n}\n").asJson();
+//        .body("{\n\"content\":\"Đê ma ma\",\n\"status_id\": \"1\",\n\"question_id\": \"1\",\n\"user_id\": \"1\"\n}").asString();
+//        Gson gson = new Gson();
+//        Question myObject = gson.fromJson(responseJSONString, Question.class);
+        JSONObject myObj = response.getBody().getObject();
+        JSONArray results = myObj.getJSONArray("data");
+        for (int i = 0; i < results.length(); i ++){
+            JSONObject jsonObject = results.getJSONObject(i);
+            QuestionDTO question = new QuestionDTO();
+            if (!jsonObject.isNull("user_id")){
+                question.setUserId(jsonObject.getLong("user_id"));
+            }
+            if (!jsonObject.isNull("topic_id")){
+                question.setTopicId(jsonObject.getLong("topic_id"));
+            }
+            if (!jsonObject.isNull("status_id")){
+                question.setStatucId(jsonObject.getLong("status_id"));
+            }
+            if (!jsonObject.isNull("question_id")){
+                question.setQuestionId(jsonObject.getLong("question_id"));
+            }
+            if (!jsonObject.isNull("content")){
+                question.setContent(jsonObject.getString("content"));
+            }
+            if (!jsonObject.isNull("created_time")){
+                question.setCreatedTime(jsonObject.getString("created_time"));
+                question.setDiffTime(calculateDiffTime(question.getCreatedTime()));
+            }
+            if (!jsonObject.isNull("edited_time")){
+                question.setEditedTime(jsonObject.getString("edited_time"));
+            }
+            if (!jsonObject.isNull("description")){
+                question.setDescription(jsonObject.getString("description"));
+            }
+            if (!jsonObject.isNull("counted")){
+                question.setAnswerCount(jsonObject.getLong("counted"));
+            }
+            questions.add(question);
+        }
+        return questions;
+    }
+
+    @Override
     public QuestionDTO getQuestionById(Long questionId) throws Exception {
         QuestionDTO question = new QuestionDTO();
         HttpResponse<JsonNode> response = Unirest.post("http://171.244.3.242:7070/getQuestionByParams")
