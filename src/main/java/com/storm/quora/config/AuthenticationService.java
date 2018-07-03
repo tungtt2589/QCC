@@ -1,6 +1,7 @@
-package com.storm.quora.service;
+package com.storm.quora.config;
 
 import com.storm.quora.dto.UserDTO;
+import com.storm.quora.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,7 +22,12 @@ public class AuthenticationService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDTO userDTO = userService.findUser(username);
+        UserDTO userDTO = null;
+        try {
+            userDTO = userService.findUser(username);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (userDTO == null) {
             throw new UsernameNotFoundException("User " + username + " was not found in the db");

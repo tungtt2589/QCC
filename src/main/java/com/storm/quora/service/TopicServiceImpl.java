@@ -28,9 +28,6 @@ public class TopicServiceImpl implements TopicService {
         HttpResponse<JsonNode> response = Unirest.post("http://171.244.3.242:7070/getAllTopic")
                 .header("content-type", "application/json")
                 .body("{}").asJson();
-//        .body("{\n\"content\":\"Đê ma ma\",\n\"status_id\": \"1\",\n\"question_id\": \"1\",\n\"user_id\": \"1\"\n}").asString();
-//        Gson gson = new Gson();
-//        Question myObject = gson.fromJson(responseJSONString, Question.class);
         JSONObject myObj = response.getBody().getObject();
         JSONArray results = myObj.getJSONArray("data");
         for (int i = 0; i < results.length(); i ++){

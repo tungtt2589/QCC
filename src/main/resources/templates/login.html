@@ -1,0 +1,144 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+<head>
+    <meta charset="UTF-8"/>
+    <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <title>Trang chủ</title>
+</head>
+<body>
+<div layout:fragment="main-content">
+    <section class="content">
+        <div class="col-lg-2 col-md-2">
+
+        </div>
+        <div class="col-lg-8 col-md-8">
+            <!--DEFINE CONTENT HERE!!!-->
+            <div class="content-wrapper">
+                <section class="content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8">
+                                <div class="post">
+                                    <form th:action="@{/login_success}" class="form newtopic" method="post">
+                                        <div class="postinfotop">
+                                            <h2>Create New Account</h2>
+                                        </div>
+
+                                        <div class="accsection">
+                                            <div class="topwrap">
+                                                <div class="userinfo pull-left">
+                                                    <div class="avatar">
+                                                    </div>
+                                                </div>
+                                                <div class="posttext pull-left">
+                                                    <div class="row">
+                                                        <input th:name="username" type="text"
+                                                               placeholder="User Name"
+                                                               class="form-control"/>
+                                                    </div>
+                                                    <div class="row">
+                                                        <input th:name="password" type="password"
+                                                               placeholder="Password"
+                                                               class="form-control" id="pass" name="pass"/>
+                                                    </div>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div><!-- acc section END -->
+
+                                        <div class="postinfobot">
+                                            <div class="pull-left lblfch">
+                                            </div>
+
+                                            <div class="pull-right postreply">
+                                                <div class="pull-left smile">
+                                                    <!--<a href="#"><i class="fa fa-smile-o"></i></a></div>-->
+                                                <div class="pull-left">
+                                                    <button type="submit" class="btn btn-primary">Login
+                                                    </button>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+    <table class="table" th:each="question : ${questions}">
+        <tr>
+            <div class="post" style="border: 2px">
+                <div class="wrap-ut pull-left">
+                    <div class="userinfo pull-left">
+                        <div class="avatar">
+                            <img th:src="@{images/avatar.jpg}" alt=""/>
+                            <div class="status green">&nbsp;</div>
+                        </div>
+
+                        <div class="icons">
+                            <!--<img th:src="@{images/icon1.jpg}" alt=""/><img th:src="@{images/icon4.jpg}" alt=""/>-->
+                        </div>
+                    </div>
+                    <div class="usertext pull-left">
+                        <p><b><a href="#">Username</a></b></p>
+                        <p>Unknown</p>
+                    </div>
+                    <div class="posttext pull-left">
+                        <h2><a th:href="@{/view(id=${question.questionId})}" th:text="${question.content}"></a></h2>
+                        <p th:text="${question.description}"></p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="postinfo pull-left">
+                    <div class="comments">
+                        <div class="commentbg">
+                            <span th:text="${question.answerCount}"></span>
+                            <div class="mark"></div>
+                        </div>
+
+                    </div>
+                    <div class="views"><i class="fa fa-eye"></i> <span th:text="${question.questionId}">1568</span>
+                    </div>
+                    <div class="time"><i class="fa fa-clock-o"></i>
+                        <span th:text="${question.diffTime}">24 min</span>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="postinfobot">
+
+                    <div class="likeblock pull-left">
+                        <a href="#" class="up"><i class="fa fa-thumbs-o-up"></i>55</a>
+                        <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i>12</a>
+                    </div>
+
+                    <div class="prev pull-left">
+                        <a href="#"><i class="fa fa-reply"></i></a>
+                    </div>
+
+                    <!--<div class="posted pull-left"><i class="fa fa-clock-o"></i> <span th:text="${question.diffTime}"></div>-->
+
+                    <div class="next pull-right">
+                        <a href="#"><i class="fa fa-share"></i></a>
+
+                        <a href="#"><i class="fa fa-flag"></i></a>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </tr>
+    </table>
+</div>
+<script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

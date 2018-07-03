@@ -26,11 +26,8 @@ public class AnswerServiceImpl implements AnswerService {
 
         HttpResponse<JsonNode> response = Unirest.post("http://171.244.3.242:7070/getAllAnswer")
                 .header("content-type", "application/json")
-//                .body("{}").asJson();
                 .body("{\n \"question_id\":\""+questionId+"\"\n}\n").asJson();
 
-//        Gson gson = new Gson();
-//        Question myObject = gson.fromJson(responseJSONString, Question.class);
         JSONObject myObj = response.getBody().getObject();
         JSONArray results = myObj.getJSONArray("data");
         for (int i = 0; i < results.length(); i ++){

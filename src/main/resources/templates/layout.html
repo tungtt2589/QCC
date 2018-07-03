@@ -70,13 +70,13 @@
                                         class="caret"></b>
                                 <div class="status green">&nbsp;</div>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" th:href="@{/}">My
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" th:href="@{/userInfo}">My
                                         Profile</a></li>
-                                    <li role="presentation"><a role="menuitem" tabindex="-2" th:href="@{/}">Inbox</a>
+                                    <li role="presentation"><a role="menuitem" tabindex="-2" th:href="@{/login}">Login</a>
                                     </li>
-                                    <li role="presentation"><a role="menuitem" tabindex="-3" th:href="@{/}">Log Out</a>
+                                    <li role="presentation"><a role="menuitem" tabindex="-3" th:href="@{/logout}">Log Out</a>
                                     </li>
-                                    <li role="presentation"><a role="menuitem" tabindex="-4" th:href="@{/user/register}">Create account</a>
+                                    <li role="presentation"><a role="menuitem" tabindex="-4" th:href="@{/register}">Create account</a>
                                     </li>
                                 </ul>
                             </div>
@@ -86,8 +86,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
     </header>
     <div id="messagediv" th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>

@@ -28,35 +28,35 @@ public class QuestionServiceImpl implements QuestionService {
                 .body("{}").asJson();
         JSONObject myObj = response.getBody().getObject();
         JSONArray results = myObj.getJSONArray("data");
-        for (int i = 0; i < results.length(); i ++){
+        for (int i = 0; i < results.length(); i++) {
             JSONObject jsonObject = results.getJSONObject(i);
             QuestionDTO question = new QuestionDTO();
-            if (!jsonObject.isNull("user_id")){
+            if (!jsonObject.isNull("user_id")) {
                 question.setUserId(jsonObject.getLong("user_id"));
             }
-            if (!jsonObject.isNull("topic_id")){
+            if (!jsonObject.isNull("topic_id")) {
                 question.setTopicId(jsonObject.getLong("topic_id"));
             }
-            if (!jsonObject.isNull("status_id")){
+            if (!jsonObject.isNull("status_id")) {
                 question.setStatucId(jsonObject.getLong("status_id"));
             }
-            if (!jsonObject.isNull("question_id")){
+            if (!jsonObject.isNull("question_id")) {
                 question.setQuestionId(jsonObject.getLong("question_id"));
             }
-            if (!jsonObject.isNull("content")){
+            if (!jsonObject.isNull("content")) {
                 question.setContent(jsonObject.getString("content"));
             }
-            if (!jsonObject.isNull("created_time")){
+            if (!jsonObject.isNull("created_time")) {
                 question.setCreatedTime(jsonObject.getString("created_time"));
                 question.setDiffTime(calculateDiffTime(question.getCreatedTime()));
             }
-            if (!jsonObject.isNull("edited_time")){
+            if (!jsonObject.isNull("edited_time")) {
                 question.setEditedTime(jsonObject.getString("edited_time"));
             }
-            if (!jsonObject.isNull("description")){
+            if (!jsonObject.isNull("description")) {
                 question.setDescription(jsonObject.getString("description"));
             }
-            if (!jsonObject.isNull("counted")){
+            if (!jsonObject.isNull("counted")) {
                 question.setAnswerCount(jsonObject.getLong("counted"));
             }
             questions.add(question);
@@ -71,38 +71,38 @@ public class QuestionServiceImpl implements QuestionService {
 
         HttpResponse<JsonNode> response = Unirest.post("http://171.244.3.242:7070/getAllQuestionByTopic")
                 .header("content-type", "application/json")
-                .body("{\n \"topic_id\":\""+topicId+"\"\n}\n").asJson();
+                .body("{\n \"topic_id\":\"" + topicId + "\"\n}\n").asJson();
         JSONObject myObj = response.getBody().getObject();
         JSONArray results = myObj.getJSONArray("data");
-        for (int i = 0; i < results.length(); i ++){
+        for (int i = 0; i < results.length(); i++) {
             JSONObject jsonObject = results.getJSONObject(i);
             QuestionDTO question = new QuestionDTO();
-            if (!jsonObject.isNull("user_id")){
+            if (!jsonObject.isNull("user_id")) {
                 question.setUserId(jsonObject.getLong("user_id"));
             }
-            if (!jsonObject.isNull("topic_id")){
+            if (!jsonObject.isNull("topic_id")) {
                 question.setTopicId(jsonObject.getLong("topic_id"));
             }
-            if (!jsonObject.isNull("status_id")){
+            if (!jsonObject.isNull("status_id")) {
                 question.setStatucId(jsonObject.getLong("status_id"));
             }
-            if (!jsonObject.isNull("question_id")){
+            if (!jsonObject.isNull("question_id")) {
                 question.setQuestionId(jsonObject.getLong("question_id"));
             }
-            if (!jsonObject.isNull("content")){
+            if (!jsonObject.isNull("content")) {
                 question.setContent(jsonObject.getString("content"));
             }
-            if (!jsonObject.isNull("created_time")){
+            if (!jsonObject.isNull("created_time")) {
                 question.setCreatedTime(jsonObject.getString("created_time"));
                 question.setDiffTime(calculateDiffTime(question.getCreatedTime()));
             }
-            if (!jsonObject.isNull("edited_time")){
+            if (!jsonObject.isNull("edited_time")) {
                 question.setEditedTime(jsonObject.getString("edited_time"));
             }
-            if (!jsonObject.isNull("description")){
+            if (!jsonObject.isNull("description")) {
                 question.setDescription(jsonObject.getString("description"));
             }
-            if (!jsonObject.isNull("counted")){
+            if (!jsonObject.isNull("counted")) {
                 question.setAnswerCount(jsonObject.getLong("counted"));
             }
             questions.add(question);
@@ -115,36 +115,36 @@ public class QuestionServiceImpl implements QuestionService {
         QuestionDTO question = new QuestionDTO();
         HttpResponse<JsonNode> response = Unirest.post("http://171.244.3.242:7070/getQuestionByParams")
                 .header("content-type", "application/json")
-                .body("{\n \"question_id\":\""+questionId+"\"\n}\n").asJson();
+                .body("{\n \"question_id\":\"" + questionId + "\"\n}\n").asJson();
         JSONObject myObj = response.getBody().getObject();
         JSONArray results = myObj.getJSONArray("data");
-            JSONObject jsonObject = results.getJSONObject(0);
-            if (!jsonObject.isNull("user_id")){
-                question.setUserId(jsonObject.getLong("user_id"));
-            }
-            if (!jsonObject.isNull("topic_id")){
-                question.setTopicId(jsonObject.getLong("topic_id"));
-            }
-            if (!jsonObject.isNull("status_id")){
-                question.setStatucId(jsonObject.getLong("status_id"));
-            }
-            if (!jsonObject.isNull("question_id")){
-                question.setQuestionId(jsonObject.getLong("question_id"));
-            }
-            if (!jsonObject.isNull("content")){
-                question.setContent(jsonObject.getString("content"));
-            }
-            if (!jsonObject.isNull("created_time")){
-                question.setCreatedTime(jsonObject.getString("created_time"));
-                question.setDiffTime(calculateDiffTime(question.getCreatedTime()));
-            }
-            if (!jsonObject.isNull("edited_time")){
-                question.setEditedTime(jsonObject.getString("edited_time"));
-            }
-        if (!jsonObject.isNull("description")){
+        JSONObject jsonObject = results.getJSONObject(0);
+        if (!jsonObject.isNull("user_id")) {
+            question.setUserId(jsonObject.getLong("user_id"));
+        }
+        if (!jsonObject.isNull("topic_id")) {
+            question.setTopicId(jsonObject.getLong("topic_id"));
+        }
+        if (!jsonObject.isNull("status_id")) {
+            question.setStatucId(jsonObject.getLong("status_id"));
+        }
+        if (!jsonObject.isNull("question_id")) {
+            question.setQuestionId(jsonObject.getLong("question_id"));
+        }
+        if (!jsonObject.isNull("content")) {
+            question.setContent(jsonObject.getString("content"));
+        }
+        if (!jsonObject.isNull("created_time")) {
+            question.setCreatedTime(jsonObject.getString("created_time"));
+            question.setDiffTime(calculateDiffTime(question.getCreatedTime()));
+        }
+        if (!jsonObject.isNull("edited_time")) {
+            question.setEditedTime(jsonObject.getString("edited_time"));
+        }
+        if (!jsonObject.isNull("description")) {
             question.setDescription(jsonObject.getString("description"));
         }
-        if (!jsonObject.isNull("counted")){
+        if (!jsonObject.isNull("counted")) {
             question.setAnswerCount(jsonObject.getLong("counted"));
         }
         return question;
@@ -155,10 +155,10 @@ public class QuestionServiceImpl implements QuestionService {
         int i = 0;
         HttpResponse<JsonNode> response = Unirest.post("http://171.244.3.242:7070/createQuestion")
                 .header("content-type", "application/json")
-                .body("{\n\"content\":\""+content+"\"," +
+                .body("{\n\"content\":\"" + content + "\"," +
                         "\n\"status_id\": \"1\"," +
-                        "\n\"topic_id\": \""+topicId+"\"," +
-                        "\n\"description\": \""+description+"\"," +
+                        "\n\"topic_id\": \"" + topicId + "\"," +
+                        "\n\"description\": \"" + description + "\"," +
                         "\n\"user_id\": \"1\"\n}")
                 .asJson();
         JSONObject jsonObject = response.getBody().getObject();
@@ -168,24 +168,24 @@ public class QuestionServiceImpl implements QuestionService {
 
     private String calculateDiffTime(String postedTime) throws ParseException {
         String diffTime = "";
-        if (!postedTime.equals("")){
+        if (!postedTime.equals("")) {
 
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = (Date)format.parse(postedTime);
+            Date date = (Date) format.parse(postedTime);
             long diff = new Date().getTime() - date.getTime();//as given
 
             long seconds = TimeUnit.MILLISECONDS.toSeconds(diff);
             long minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
             long hour = TimeUnit.MILLISECONDS.toHours(diff);
             long days = TimeUnit.MILLISECONDS.toDays(diff);
-            if (seconds < 60){
-                diffTime = seconds+"s";
-            }else if (seconds > 60 && minutes < 60){
-                diffTime = minutes+" phút";
-            }else if (minutes > 60 && hour < 24){
-                diffTime = hour+" giờ";
-            }else {
-                diffTime = days+" ngày";
+            if (seconds < 60) {
+                diffTime = seconds + "s";
+            } else if (seconds > 60 && minutes < 60) {
+                diffTime = minutes + " phút";
+            } else if (minutes > 60 && hour < 24) {
+                diffTime = hour + " giờ";
+            } else {
+                diffTime = days + " ngày";
             }
         }
         return diffTime;
