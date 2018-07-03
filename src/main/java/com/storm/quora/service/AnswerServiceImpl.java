@@ -1,4 +1,4 @@
-package com.storm.quora.service.impl;
+package com.storm.quora.service;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;

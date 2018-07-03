@@ -1,21 +1,13 @@
 package com.storm.quora.controller;
 
-import com.storm.quora.domain.Pager;
-import com.storm.quora.domain.Person;
 import com.storm.quora.dto.AnswerDTO;
 import com.storm.quora.dto.QuestionDTO;
 import com.storm.quora.dto.TopicDTO;
-import com.storm.quora.model.Question;
-import com.storm.quora.model.Topic;
 import com.storm.quora.service.AnswerService;
-import com.storm.quora.service.PersonService;
 import com.storm.quora.service.QuestionService;
 import com.storm.quora.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -23,7 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class MainController {
@@ -38,6 +29,7 @@ public class MainController {
 
     private List<QuestionDTO> questions;
     private String questionId = "";
+
     //    @RequestMapping(value = "/", method = RequestMethod.GET)
 //    public ModelAndView showPersonsPages(@RequestParam("page") Optional<Integer> page) {
 //        ModelAndView modelAndView = new ModelAndView("index");
@@ -143,7 +135,7 @@ public class MainController {
     }
 
 
-//    @GetMapping("/create/save")
+    //    @GetMapping("/create/save")
 //    public String showPage(Model model) {
 //        model.addAttribute("createQuestion", new QuestionDTO()); //assume SomeBean has a property called datePlanted
 //        return "create";
@@ -152,23 +144,22 @@ public class MainController {
     @PostMapping("/create/save")
     public ModelAndView showPage(@ModelAttribute("createAnswer") QuestionDTO questionDTO, RedirectAttributes redirectAttributes) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
-        if (questionDTO.getContent().equals("")){
+        if (questionDTO.getContent().equals("")) {
             redirectAttributes.addFlashAttribute("message", "Câu hỏi không được để trống");
             redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-        }else if (questionDTO.getTopicId() == 0){
+        } else if (questionDTO.getTopicId() == 0) {
             redirectAttributes.addFlashAttribute("message", "Chủ đề không được để trống");
             redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-        }else if (questionDTO.getTopicId() == 0 && questionDTO.getContent().equals("")){
+        } else if (questionDTO.getTopicId() == 0 && questionDTO.getContent().equals("")) {
             redirectAttributes.addFlashAttribute("message", "Chủ đề và câu  không được để trống");
             redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-        }
-        else {
+        } else {
             int i = questionService.createQuestion(questionDTO.getContent(), Long.toString(questionDTO.getTopicId()), questionDTO.getDescription());
-            if (i == 1){
+            if (i == 1) {
                 System.out.println("Success");
                 redirectAttributes.addFlashAttribute("message", "Success");
                 redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-            }else {
+            } else {
                 System.out.println("Not successs");
                 redirectAttributes.addFlashAttribute("message", "Failed");
                 redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
@@ -183,16 +174,16 @@ public class MainController {
     @PostMapping("/view/save")
     public ModelAndView createAnswer(@ModelAttribute("createAnswer") AnswerDTO answerDTO, RedirectAttributes redirectAttributes) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
-        if (answerDTO.getContent().equals("")){
+        if (answerDTO.getContent().equals("")) {
             redirectAttributes.addFlashAttribute("message", "Câu hỏi không được để trống");
             redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-        }else {
+        } else {
             int i = answerService.createAnswer(questionId, answerDTO.getContent());
-            if (i == 1){
+            if (i == 1) {
                 System.out.println("Success");
                 redirectAttributes.addFlashAttribute("message", "Success");
                 redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-            }else {
+            } else {
                 System.out.println("Not successs");
                 redirectAttributes.addFlashAttribute("message", "Failed");
                 redirectAttributes.addFlashAttribute("alertClass", "alert-danger");

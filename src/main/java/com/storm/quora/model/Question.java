@@ -1,14 +1,10 @@
 package com.storm.quora.model;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.util.Date;
 
 @Entity
 @Table(name = "question")
-@XmlRootElement
-@NamedQueries({@NamedQuery(name = "Question.findAll", query = "SELECT p FROM Question p")})
 public class Question implements Serializable {
     private static final long serialVersionUID = 1L;
 

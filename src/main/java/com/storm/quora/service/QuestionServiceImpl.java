@@ -1,20 +1,13 @@
-package com.storm.quora.service.impl;
+package com.storm.quora.service;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.storm.quora.dto.QuestionDTO;
-import com.storm.quora.model.Question;
-import com.storm.quora.repository.QuestionRepository;
-import com.storm.quora.service.QuestionService;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-//import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,8 +18,6 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
-//    @Autowired
-//    QuestionRepository questionRepository;
 
     @Override
     public List<QuestionDTO> getAllQuestion() throws Exception {
@@ -35,9 +26,6 @@ public class QuestionServiceImpl implements QuestionService {
         HttpResponse<JsonNode> response = Unirest.post("http://171.244.3.242:7070/getAllQuestion")
                 .header("content-type", "application/json")
                 .body("{}").asJson();
-//        .body("{\n\"content\":\"Đê ma ma\",\n\"status_id\": \"1\",\n\"question_id\": \"1\",\n\"user_id\": \"1\"\n}").asString();
-//        Gson gson = new Gson();
-//        Question myObject = gson.fromJson(responseJSONString, Question.class);
         JSONObject myObj = response.getBody().getObject();
         JSONArray results = myObj.getJSONArray("data");
         for (int i = 0; i < results.length(); i ++){
@@ -84,9 +72,6 @@ public class QuestionServiceImpl implements QuestionService {
         HttpResponse<JsonNode> response = Unirest.post("http://171.244.3.242:7070/getAllQuestionByTopic")
                 .header("content-type", "application/json")
                 .body("{\n \"topic_id\":\""+topicId+"\"\n}\n").asJson();
-//        .body("{\n\"content\":\"Đê ma ma\",\n\"status_id\": \"1\",\n\"question_id\": \"1\",\n\"user_id\": \"1\"\n}").asString();
-//        Gson gson = new Gson();
-//        Question myObject = gson.fromJson(responseJSONString, Question.class);
         JSONObject myObj = response.getBody().getObject();
         JSONArray results = myObj.getJSONArray("data");
         for (int i = 0; i < results.length(); i ++){
@@ -203,9 +188,6 @@ public class QuestionServiceImpl implements QuestionService {
                 diffTime = days+" ngày";
             }
         }
-//        System.out.println("post date "+date+ " "+"today date "+new Date());
-//        System.out.println("skdvn "+days);
-//        System.out.println("skdvn4543543 "+hour);
         return diffTime;
     }
 }
