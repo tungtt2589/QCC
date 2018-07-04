@@ -22,9 +22,9 @@
                         <div class="row">
                             <div class="col-lg-8 col-md-8">
                                 <div class="post">
-                                    <form th:action="@{/login_success}" class="form newtopic" method="post">
+                                    <form th:action="@{/login}" class="form newtopic" method="post">
                                         <div class="postinfotop">
-                                            <h2>Create New Account</h2>
+                                            <h2>Login</h2>
                                         </div>
 
                                         <div class="accsection">
@@ -51,16 +51,18 @@
 
                                         <div class="postinfobot">
                                             <div class="pull-left lblfch">
+                                                <div th:if="${param.error}">
+                                                    <div class="callout callout-danger">
+                                                        <p style="color: red">Tài khoản hoặc mật khẩu không đúng.</p>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <div class="pull-right postreply">
                                                 <div class="pull-left smile">
-                                                    <!--<a href="#"><i class="fa fa-smile-o"></i></a></div>-->
-                                                    <div class="pull-left">
-                                                        <button type="submit" class="btn btn-primary">Login
-                                                        </button>
-                                                    </div>
-                                                    <div class="clearfix"></div>
+                                                <div class="pull-left">
+                                                    <button type="submit" class="btn btn-primary">Login
+                                                    </button>
                                                 </div>
                                                 <div class="clearfix"></div>
                                             </div>

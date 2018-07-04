@@ -333,6 +333,21 @@ public abstract class CacheService {
         }
     }
 
+    public long hlen(String key) {
+        Jedis jedis = null;
+        long len;
+
+        try {
+            jedis = this.underlyingPool.getResource();
+            len = jedis.hlen(this.makeKey(key));
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+        return len;
+    }
+
     public Set<String> hkeys(String key) {
         Jedis jedis = null;
 
