@@ -3,6 +3,7 @@ package com.storm.quora.controller;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import com.storm.quora.common.GooglePojo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -29,5 +30,19 @@ public class GoogleUtils {
 
         String accessToken = "";
         return accessToken;
+    }
+
+    public static GooglePojo getUserInfo(final String accessToken) throws Exception{
+        String link = GOOGLE_LINK_GET_USER_INFO + accessToken;
+
+        HttpResponse<JsonNode> response = Unirest.get(link)
+                .header("content-type", "application/x-www-form-urlencoded")
+                .asJson();
+
+        JSONObject myObj = response.getBody().getObject();
+
+        GooglePojo googlePojo = new GooglePojo();
+
+        return googlePojo;
     }
 }

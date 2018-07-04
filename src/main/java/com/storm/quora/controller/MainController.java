@@ -1,5 +1,6 @@
 package com.storm.quora.controller;
 
+import com.storm.quora.common.GooglePojo;
 import com.storm.quora.dto.AnswerDTO;
 import com.storm.quora.dto.QuestionDTO;
 import com.storm.quora.dto.TopicDTO;
@@ -188,8 +189,9 @@ public class MainController {
         }
 
         try {
-            String accessToken = "";
-            accessToken = GoogleUtils.getToken(code);
+            String accessToken = GoogleUtils.getToken(code);
+            GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
+            String name = googlePojo.getName();
         } catch (Exception e) {
             e.printStackTrace();
         }
