@@ -20,7 +20,6 @@ public class VoteController {
             CacheManager cm = RedisCache.getManager();
             if (cm != null) {
                 MainCache mc = cm.getMainCache();
-                mc.h
                 mc.setValue("test_cache", "test");
             }
 
