@@ -1,45 +1,44 @@
 package com.storm.quora.config;
 
-import com.storm.quora.dto.UserDTO;
+import com.google.gson.Gson;
+import com.storm.quora.model.User;
 import com.storm.quora.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 @Service
+@Transactional
 public class AuthenticationService implements UserDetailsService {
+    private static final Logger log = LoggerFactory.getLogger(AuthenticationService.class);
 
     @Autowired
     private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDTO userDTO = null;
+        User user = null;
         try {
-            userDTO = userService.findUser(username);
+            user = userService.findByName(username);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        if (userDTO == null) {
+        if (user == null) {
             throw new UsernameNotFoundException("User " + username + " was not found in the db");
         }
 
-        long role = userDTO.getRole();
-
-        List<GrantedAuthority> grantList = new ArrayList<>();
-        GrantedAuthority authority = new SimpleGrantedAuthority(role == 0 ? "ADMIN" : "USER");
-        grantList.add(authority);
-
-        UserDetails userDetails = new User(userDTO.getUsername(), userDTO.getPassword(), grantList);
+        GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole() == 0 ? "ROLE_ADMIN" : "ROLE_USER");
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), Collections.singletonList(authority));
+        log.info(new Gson().toJson(userDetails));
         return userDetails;
     }
 }

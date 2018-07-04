@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
       xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
@@ -64,25 +65,40 @@
                             </div>
                             <div class="env pull-left"><i class="fa fa-envelope"></i></div>
 
-                            <div class="avatar pull-left dropdown">
-                                <a data-toggle="dropdown" th:href="@{/}"><img th:src="@{images/avatar.jpg}" alt=""/></a>
-                                <b
-                                        class="caret"></b>
-                                <div class="status green">&nbsp;</div>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" th:href="@{/userInfo}">My
-                                        Profile</a></li>
-                                    <li role="presentation"><a role="menuitem" tabindex="-2" th:href="@{/login}">Login</a>
-                                    </li>
-                                    <li role="presentation"><a role="menuitem" tabindex="-3" th:href="@{/logout}">Log Out</a>
-                                    </li>
-                                    <li role="presentation"><a role="menuitem" tabindex="-4" th:href="@{/register}">Create account</a>
-                                    </li>
-                                </ul>
+                            <div th:if="${#httpServletRequest.remoteUser}!=null">
+                                <div class="avatar pull-left dropdown">
+                                    <a data-toggle="dropdown" th:href="@{/}"><img th:src="@{images/avatar.jpg}" alt=""/></a>
+                                    <b
+                                            class="caret"></b>
+                                    <div class="status green">&nbsp;</div>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li role="presentation">
+                                            <p>
+                                                Welcome: <span sec:authentication="name">[[${#httpServletRequest.remoteUser}]]</span>
+                                            </p>
+                                        </li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" th:href="@{/userInfo}">My
+                                            Profile</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-3" th:href="@{/logout}">Log
+                                            Out</a>
+                                        </li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-4"
+                                                                   th:href="@{/registerForm}">Create account</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div th:unless=="${#httpServletRequest.remoteUser}!=null">
+                                <div class="avatar pull-left">
+                                    <form th:action="@{/login}" method="post" class="form">
+                                    <button class="btn btn-primary" th:href="@{/login}">Login</button>
+                                    </form>
+                                </div>
                             </div>
 
                             <div class="clearfix"></div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -92,11 +108,11 @@
     <!--CONTENT-->
     <div class="container">
         <div class="row">
-            <div class="col-lg-12 col-rm-12" style="margin-top: 30px"></div>
+            <div class="col-lg-12 col-rm-12" style="margin-top: 30px">
+            </div>
         </div>
         <div class="row" layout:fragment="main-content">
             <div class="col-lg-3 col-md-4">
-                <!-- -->
                 <div class="sidebarblock">
                     <h3>Chủ đề</h3>
                     <div class="divline"></div>
@@ -118,30 +134,32 @@
     </div>
 
     <!--<footer class="main-footer">-->
-        <!--<div class="container">-->
-            <!--<div class="row">-->
-                <!--<div class="col-lg-1 col-xs-3 col-sm-2 logo "><a href="#"><img th:src="@{images/logo.jpg}" alt=""/></a>-->
-                <!--</div>-->
-                <!--<div class="col-lg-8 col-xs-9 col-sm-5 ">Copyrights &copy; 2018, ineas.topica.vn</div>-->
-                <!--<div class="col-lg-3 col-xs-12 col-sm-5 sociconcent">-->
-                    <!--<ul class="socialicons">-->
-                        <!--<li><a href="#"><i class="fa fa-facebook-square"></i></a></li>-->
-                        <!--<li><a href="#"><i class="fa fa-twitter"></i></a></li>-->
-                        <!--<li><a href="#"><i class="fa fa-google-plus"></i></a></li>-->
-                        <!--<li><a href="#"><i class="fa fa-dribbble"></i></a></li>-->
-                        <!--<li><a href="#"><i class="fa fa-cloud"></i></a></li>-->
-                        <!--<li><a href="#"><i class="fa fa-rss"></i></a></li>-->
-                    <!--</ul>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
+    <!--<div class="container">-->
+    <!--<div class="row">-->
+    <!--<div class="col-lg-1 col-xs-3 col-sm-2 logo "><a href="#"><img th:src="@{images/logo.jpg}" alt=""/></a>-->
+    <!--</div>-->
+    <!--<div class="col-lg-8 col-xs-9 col-sm-5 ">Copyrights &copy; 2018, ineas.topica.vn</div>-->
+    <!--<div class="col-lg-3 col-xs-12 col-sm-5 sociconcent">-->
+    <!--<ul class="socialicons">-->
+    <!--<li><a href="#"><i class="fa fa-facebook-square"></i></a></li>-->
+    <!--<li><a href="#"><i class="fa fa-twitter"></i></a></li>-->
+    <!--<li><a href="#"><i class="fa fa-google-plus"></i></a></li>-->
+    <!--<li><a href="#"><i class="fa fa-dribbble"></i></a></li>-->
+    <!--<li><a href="#"><i class="fa fa-cloud"></i></a></li>-->
+    <!--<li><a href="#"><i class="fa fa-rss"></i></a></li>-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
     <!--</footer>-->
     <div class="control-sidebar-bg"></div>
     <!-- get jQuery from the google apis -->
     <script type="text/javascript" th:src="@{ajax/jquery.js}"></script>
 
     <script>
-        window.onscroll = function() {myFunction()};
+        window.onscroll = function () {
+            myFunction()
+        };
 
         var header = document.getElementById("header");
         var sticky = header.offsetTop;
@@ -160,11 +178,11 @@
 
     <script th:src="@{js/bootstrap.min.js}"></script>
 
-<script>
-    $( document ).ready(function() {
-        $("#messagediv").delay(3000).fadeOut("slow");
-    });
-</script>
+    <script>
+        $(document).ready(function () {
+            $("#messagediv").delay(3000).fadeOut("slow");
+        });
+    </script>
 
 
     <script type="text/javascript">
