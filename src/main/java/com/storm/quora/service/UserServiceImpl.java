@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
             if (!jsonObject.isNull("user_status")) {
                 user.setUserStatus(jsonObject.getLong("user_status"));
             }
-            logger.info(new Gson().toJson(user));
+//            logger.info(new Gson().toJson(user));
             return user;
         }
         return null;

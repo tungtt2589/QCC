@@ -1,25 +1,39 @@
 package com.storm.quora.controller;
 
+import com.google.gson.Gson;
+import com.storm.quora.cache.RedisCache;
+import com.storm.quora.cache.redis.CacheManager;
+import com.storm.quora.cache.redis.MainCache;
+import com.storm.quora.config.UserAuthentication;
 import com.storm.quora.dto.AnswerDTO;
 import com.storm.quora.dto.QuestionDTO;
 import com.storm.quora.dto.TopicDTO;
+import com.storm.quora.model.User;
 import com.storm.quora.service.AnswerService;
 import com.storm.quora.service.QuestionService;
 import com.storm.quora.service.TopicService;
+import com.storm.quora.util.Constant;
 import com.storm.quora.util.social.GoogleUtils;
 import com.storm.quora.util.social.RestFB;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class MainController {
+    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
     @Autowired
     private TopicService service;
 
@@ -198,5 +212,75 @@ public class MainController {
         modelAndView.addObject("topics", topics);*/
         modelAndView.setViewName("index");
         return modelAndView;
+    }
+
+    @GetMapping(value = "/up", params = "id")
+    public ModelAndView upVote(@RequestParam("id") String id, RedirectAttributes redirectAttributes) throws Exception {
+        logger.info("question id: " + id);
+        ModelAndView modelAndView = new ModelAndView();
+        String keyUp = String.format(Constant.UP_VOTE_QUESTION_CACHE_FORMAT, id);
+        String keyDown = String.format(Constant.DOWN_VOTE_QUESTION_CACHE_FORMAT, id);
+        if (UserAuthentication.getCurrentUser() == null) {
+            redirectAttributes.addFlashAttribute("message", "Bạn chưa đăng nhập. Vui lòng đăng nhập để tiếp tục");
+            redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+            return new ModelAndView("forward:/");
+        }
+        try {
+            CacheManager cm = RedisCache.getManager();
+            if (cm != null) {
+                MainCache mc = cm.getMainCache();
+                User currentUser = UserAuthentication.getCurrentUser();
+                if (mc.exists(keyDown) && mc.hexists(keyDown, String.valueOf(currentUser.getUserId()))) {
+                    mc.hdel(keyDown, String.valueOf(currentUser.getUserId()));
+                }
+                long timeNow = new Date().getTime();
+                mc.hset(keyUp, String.valueOf(currentUser.getUserId()), String.valueOf(timeNow));
+                //todo: update list
+                QuestionDTO questionDTO = questions.stream().filter(q -> q.getQuestionId() == Long.valueOf(id)).findAny().orElse(null);
+                logger.info("filter: " + new Gson().toJson(questionDTO));
+                logger.info("size list question: " + questions.size());
+                modelAndView.getModelMap().addAttribute("countup", mc.hlen(keyUp));
+                modelAndView.getModelMap().addAttribute("countdown", mc.hlen(keyDown));
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        modelAndView.setViewName("forward:/");
+        return modelAndView;
+
+    }
+
+    @GetMapping(value = "/down", params = "id")
+    public ModelAndView downVote(@RequestParam("id") String id, RedirectAttributes redirectAttributes) throws Exception {
+        logger.info("question id: " + id);
+        ModelAndView modelAndView = new ModelAndView();
+        String keyUp = String.format(Constant.UP_VOTE_QUESTION_CACHE_FORMAT, id);
+        String keyDown = String.format(Constant.DOWN_VOTE_QUESTION_CACHE_FORMAT, id);
+        if (UserAuthentication.getCurrentUser() == null) {
+            redirectAttributes.addFlashAttribute("message", "Bạn chưa đăng nhập. Vui lòng đăng nhập để tiếp tục");
+            redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+            return new ModelAndView("forward:/");
+        }
+        try {
+            CacheManager cm = RedisCache.getManager();
+            if (cm != null) {
+                MainCache mc = cm.getMainCache();
+                User currentUser = UserAuthentication.getCurrentUser();
+                if (mc.exists(keyUp) && mc.hexists(keyUp, String.valueOf(currentUser.getUserId()))) {
+                    mc.hdel(keyUp, String.valueOf(currentUser.getUserId()));
+                }
+                long timeNow = new Date().getTime();
+                mc.hset(keyDown, String.valueOf(currentUser.getUserId()), String.valueOf(timeNow));
+                //todo: update list
+                logger.info("size list question: " + questions.size());
+                modelAndView.getModelMap().addAttribute("countup", mc.hlen(keyUp));
+                modelAndView.getModelMap().addAttribute("countdown", mc.hlen(keyDown));
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        modelAndView.setViewName("forward:/");
+        return modelAndView;
+
     }
 }
