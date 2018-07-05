@@ -1,5 +1,6 @@
 package com.storm.quora.controller;
 
+import com.storm.quora.common.GooglePojo;
 import com.google.gson.Gson;
 import com.storm.quora.cache.RedisCache;
 import com.storm.quora.cache.redis.CacheManager;
@@ -201,8 +202,9 @@ public class MainController {
         }
 
         try {
-            String accessToken = "";
-            accessToken = GoogleUtils.getToken(code);
+            String accessToken = GoogleUtils.getToken(code);
+            GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
+            String name = googlePojo.getName();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -282,5 +284,24 @@ public class MainController {
         modelAndView.setViewName("forward:/");
         return modelAndView;
 
+    }
+
+    @GetMapping(value = "/", params = "email")
+    public ModelAndView loginGoogle_Email(@RequestParam("email") String email) {
+        List<TopicDTO> topics = new ArrayList<>();
+        questions = new ArrayList<>();
+        questions = null;
+        try {
+            questions = questionService.getAllQuestion();
+            Collections.reverse(questions);
+            topics = service.getAllTopic();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("questions", questions);
+        modelAndView.addObject("topics", topics);
+        modelAndView.setViewName("index");
+        return modelAndView;
     }
 }

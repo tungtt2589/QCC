@@ -4,11 +4,30 @@
       layout:decorate="layout">
 <head>
     <meta charset="UTF-8"/>
+    <script>(function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.0&appId=278025672770919&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
     <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <title>Trang chủ</title>
+    <style>
+        .postinfobot .next {
+            width: 120px;
+        }
+
+        .fb-share-button span {
+            vertical-align: middle !important;
+        }
+    </style>
 </head>
 <body>
+<div id="fb-root"></div>
+
 <div layout:fragment="content">
     <section class="content">
         <div class="container">
@@ -85,8 +104,21 @@
                         </div>
                     </div>
                     <div class="usertext pull-left">
-                        <p><b><a href="#">Username</a></b></p>
-                        <p>Unknown</p>
+                        <!--<p><b><a href="#">Username</a></b></p>-->
+                        <!--<p>Unknown</p>-->
+                        <li>
+                            <a href="/">
+                                <span th:text="${question.userName}"/>
+                            </a>
+
+                        </li>
+                        <li>
+                            <a href="/">
+                                <span th:text="${question.topicName}"/>
+                            </a>
+
+                        </li>
+                        <p th:text="${question.userJob}"></p>
                     </div>
                     <div class="posttext pull-left">
                         <h2><a th:href="@{/view(id=${question.questionId})}" th:text="${question.content}"></a></h2>
@@ -111,6 +143,8 @@
                 <div class="clearfix"></div>
                 <div class="postinfobot">
                     <div class="likeblock pull-left">
+                        <a th:href="@{/}" class="up"><i class="fa fa-thumbs-o-up"></i><span th:text="${question.upCount}">55</a>
+                        <a th:href="@{/}" class="down"><i class="fa fa-thumbs-o-down"></i><span th:text="${question.downCount}">12</a>
                         <a th:href="@{/up(id=${question.questionId})}" class="up">
                             <i class="fa fa-thumbs-o-up"></i><a th:text="${countup}">111</a>
                         </a>
@@ -120,12 +154,18 @@
                     </div>
 
                     <div class="prev pull-left">
-                        <a href="#"><i class="fa fa-reply"></i></a>
+                        <a th:href="@{/view(id=${question.questionId})}"><i class="fa fa-reply"></i></a>
                     </div>
 
                     <div class="next pull-right">
-                        <a href="#"><i class="fa fa-share"></i></a>
+                        <div class="fb-share-button"
+                             th:attr="data-href=@{/view(id=${question.questionId})}"
+                             data-layout="button_count" data-size="small" data-mobile-iframe="true">
+                            <a target="_blank" class="fb-xfbml-parse-ignore" th:with="url=@{/view(id=${question.questionId})}"
+                               th:href="@{https://www.facebook.com/sharer/sharer.php(u=${url},src='sdkpreparse')}">Chia sẻ</a>
+                        </div>
 
+                        <!--<a target='_blank' href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fthuonghieuweb.com%2Fhuong-dan-nhung-nut-chia-se-facebook-va-google-plus-vao-website.html&amp;src=sdkpreparse"><i class="fa fa-share"></i></a>-->
                         <a href="#"><i class="fa fa-flag"></i></a>
                     </div>
 
@@ -135,12 +175,6 @@
         </tr>
     </table>
 </div>
-<script>
-    $(function upvote() {
-        var url = '/upVoteQuestion';
-        $("#table").load(url);
-    });
-</script>
 <script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/app.js}"></script>

@@ -15,6 +15,54 @@
     <form action="#" th:action="@{/logout}" method="POST">
         <button type="submit">Logout</button>
     </form>
+    <div class="container">
+        <section style="padding-bottom: 50px; padding-top: 50px;">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="assets/img/250x250.png" class="img-rounded img-responsive" />
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group col-md-8">
+                        <!--<p th:text="${user.name}"></p>-->
+                        <h3>Thông tin cá nhân</h3>
+                        <br />
+                        <label>Họ và tên</label>
+                        <input type="text" class="form-control" placeholder="Demouser">
+                        <br />
+                        <label>Email</label>
+                        <input type="text" class="form-control" placeholder="Demouser">
+                        <br />
+                        <label>Số điện thoại</label>
+                        <input type="text" class="form-control" placeholder="Demouser">
+                        <br />
+                        <label>Ngày tháng năm sinh</label>
+                        <input type="date" class="form-control" placeholder="Demouser">
+                        <br />
+                        <label>Giới tính</label>
+                        <input type="text" class="form-control" placeholder="Demouser">
+                        <br />
+                        <label>Địa chỉ</label>
+                        <input type="text" class="form-control" placeholder="Demouser">
+                        <br />
+                        <label>Nghề nghiệp</label>
+                        <input type="text" class="form-control" placeholder="Demouser">
+                        <br />
+                        <br>
+                        <a href="#" class="btn btn-warning">Cập nhật</a>
+                    </div>
+                </div>
+            </div>
+            <!-- ROW END -->
+        </section>
+        <!-- SECTION END -->
+    </div>
+    <!-- CONATINER END -->
+
+    <!-- REQUIRED SCRIPTS FILES -->
+    <!-- CORE JQUERY FILE -->
+    <script src="assets/js/jquery-1.11.1.js"></script>
+    <!-- REQUIRED BOOTSTRAP SCRIPTS -->
+    <script src="assets/js/bootstrap.js"></script>
 </div>
 </body>
 </html>
