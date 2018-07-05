@@ -59,6 +59,21 @@ public class QuestionServiceImpl implements QuestionService {
             if (!jsonObject.isNull("counted")) {
                 question.setAnswerCount(jsonObject.getLong("counted"));
             }
+            if (!jsonObject.isNull("user_name")) {
+                question.setUserName(jsonObject.getString("user_name"));
+            }
+            if (!jsonObject.isNull("user_job")) {
+                question.setUserJob(jsonObject.getString("user_job"));
+            }
+            if (!jsonObject.isNull("up_count")) {
+                question.setUpCount(jsonObject.getLong("up_count"));
+            }
+            if (!jsonObject.isNull("down_count")) {
+                question.setDownCount(jsonObject.getLong("down_count"));
+            }
+            if (!jsonObject.isNull("topic_name")) {
+                question.setTopicName(jsonObject.getString("topic_name"));
+            }
             questions.add(question);
         }
         return questions;
@@ -105,6 +120,21 @@ public class QuestionServiceImpl implements QuestionService {
             if (!jsonObject.isNull("counted")) {
                 question.setAnswerCount(jsonObject.getLong("counted"));
             }
+            if (!jsonObject.isNull("user_name")) {
+                question.setUserName(jsonObject.getString("user_name"));
+            }
+            if (!jsonObject.isNull("user_job")) {
+                question.setUserJob(jsonObject.getString("user_job"));
+            }
+            if (!jsonObject.isNull("up_count")) {
+                question.setUpCount(jsonObject.getLong("up_count"));
+            }
+            if (!jsonObject.isNull("down_count")) {
+                question.setDownCount(jsonObject.getLong("down_count"));
+            }
+            if (!jsonObject.isNull("topic_name")) {
+                question.setTopicName(jsonObject.getString("topic_name"));
+            }
             questions.add(question);
         }
         return questions;
@@ -146,6 +176,21 @@ public class QuestionServiceImpl implements QuestionService {
         }
         if (!jsonObject.isNull("counted")) {
             question.setAnswerCount(jsonObject.getLong("counted"));
+        }
+        if (!jsonObject.isNull("user_name")) {
+            question.setUserName(jsonObject.getString("user_name"));
+        }
+        if (!jsonObject.isNull("user_job")) {
+            question.setUserJob(jsonObject.getString("user_job"));
+        }
+        if (!jsonObject.isNull("up_count")) {
+            question.setUpCount(jsonObject.getLong("up_count"));
+        }
+        if (!jsonObject.isNull("down_count")) {
+            question.setDownCount(jsonObject.getLong("down_count"));
+        }
+        if (!jsonObject.isNull("topic_name")) {
+            question.setTopicName(jsonObject.getString("topic_name"));
         }
         return question;
     }

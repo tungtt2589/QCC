@@ -152,4 +152,22 @@ public class UserServiceImpl implements UserService {
         return userDTO;
     }
 
+    @Override
+    public int updateUser(String name, String email, String phone, String dob, String gender, String address, String job) throws Exception {
+        int i = 0;
+        HttpResponse<JsonNode> response = Unirest.post("http://171.244.3.242:7070/updateUser")
+                .header("content-type", "application/json")
+                .body("{\n\"name\":\"" + name + "\"," +
+                        "\n\"email\": \"" + email + "\"," +
+                        "\n\"phone_number\": \"" + phone + "\"," +
+                        "\n\"dob\": \"" + dob + "\"," +
+                        "\n\"gender\": \"" + gender + "\"," +
+                        "\n\"address\": \"" + address + "\"," +
+                        "\n\"job\": \""+job+"\"\n}")
+                .asJson();
+        JSONObject jsonObject = response.getBody().getObject();
+        i = jsonObject.getInt("status");
+        return i;
+    }
+
 }

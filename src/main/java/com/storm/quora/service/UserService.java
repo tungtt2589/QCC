@@ -7,4 +7,6 @@ public interface UserService {
     User findByName(String username) throws Exception;
 
     UserDTO register(UserDTO userDTO) throws Exception;
+
+    int updateUser(String name, String email, String phone, String dob, String gender, String address, String job) throws Exception;
 }

@@ -18,6 +18,11 @@ public class QuestionDTO extends BaseDTO implements Serializable {
     private String editedTime;
     private long statucId;
     private long answerCount;
+    private long upCount;
+    private long downCount;
+    private String userName;
+    private String userJob;
+    private String topicName;
 
     public long getQuestionId() {
         return questionId;
@@ -97,5 +102,45 @@ public class QuestionDTO extends BaseDTO implements Serializable {
 
     public void setAnswerCount(long answerCount) {
         this.answerCount = answerCount;
+    }
+
+    public long getUpCount() {
+        return upCount;
+    }
+
+    public void setUpCount(long upCount) {
+        this.upCount = upCount;
+    }
+
+    public long getDownCount() {
+        return downCount;
+    }
+
+    public void setDownCount(long downCount) {
+        this.downCount = downCount;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserJob() {
+        return userJob;
+    }
+
+    public void setUserJob(String userJob) {
+        this.userJob = userJob;
+    }
+
+    public String getTopicName() {
+        return topicName;
+    }
+
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
     }
 }
