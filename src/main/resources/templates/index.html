@@ -141,11 +141,11 @@
 
                     <div class="next pull-right">
                         <div class="fb-share-button"
-                             data-href="http://thuonghieuweb.com/huong-dan-nhung-nut-chia-se-facebook-va-google-plus-vao-website.html"
-                             data-layout="button_count" data-size="small" data-mobile-iframe="true"><a target="_blank"
-                                                                                                       href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fthuonghieuweb.com%2Fhuong-dan-nhung-nut-chia-se-facebook-va-google-plus-vao-website.html&amp;src=sdkpreparse"
-                                                                                                       class="fb-xfbml-parse-ignore">Chia
-                            sẻ</a></div>
+                             th:attr="data-href=@{/view(id=${question.questionId})}"
+                             data-layout="button_count" data-size="small" data-mobile-iframe="true">
+                            <a target="_blank" class="fb-xfbml-parse-ignore" th:with="url=@{/view(id=${question.questionId})}"
+                               th:href="@{https://www.facebook.com/sharer/sharer.php(u=${url},src='sdkpreparse')}">Chia sẻ</a>
+                        </div>
 
                         <!--<a target='_blank' href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fthuonghieuweb.com%2Fhuong-dan-nhung-nut-chia-se-facebook-va-google-plus-vao-website.html&amp;src=sdkpreparse"><i class="fa fa-share"></i></a>-->
                         <a href="#"><i class="fa fa-flag"></i></a>
