@@ -124,7 +124,7 @@ public class MainController {
                 redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
             }
         }
-
+        System.out.println("ssascscsc");
         modelAndView.setViewName("redirect:/");
         return modelAndView;
     }
