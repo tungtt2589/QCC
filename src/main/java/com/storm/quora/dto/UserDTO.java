@@ -7,6 +7,7 @@ public class UserDTO implements Serializable {
     private long userId;
     private String username;
     private String password;
+    private String passwordConfirm;
     private String name;
     private String email;
     private String phoneNumber;
@@ -46,6 +47,14 @@ public class UserDTO implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 
     public String getName() {

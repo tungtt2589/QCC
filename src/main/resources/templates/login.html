@@ -36,7 +36,7 @@
                                                 <div class="posttext pull-left">
                                                     <div class="row">
                                                         <input th:name="username" type="text"
-                                                               placeholder="User Name"
+                                                               placeholder="Username"
                                                                class="form-control"/>
                                                     </div>
                                                     <div class="row">
@@ -50,36 +50,40 @@
                                         </div><!-- acc section END -->
 
                                         <div class="postinfobot">
-                                            <div class="pull-left lblfch">
-                                                <div th:if="${param.error}">
-                                                    <div class="callout callout-danger">
-                                                        <p style="color: red">Tài khoản hoặc mật khẩu không đúng.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
+                                            <!--<div class="pull-left lblfch">-->
+                                            <!--<div th:if="${param.error}!=null">-->
+                                            <!--<p style="color: red">Tài khoản hoặc mật khẩu không đúng.</p>-->
+                                            <!--</div>-->
+                                            <!--</div>-->
                                             <div class="pull-right postreply">
                                                 <div class="pull-left smile">
-                                                <div class="pull-left">
-                                                    <button type="submit" class="btn btn-primary">Login
-                                                    </button>
+                                                    <div class="pull-left">
+                                                        <button type="submit" class="btn btn-primary">Login
+                                                        </button>
+                                                    </div>
+                                                    <div class="clearfix"></div>
                                                 </div>
-                                                <div class="clearfix"></div>
                                             </div>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-8 col-md-8">
-                                <div class="post">
-                                    <!--<a href="https://www.facebook.com/v2.5/dialog/oauth?client_id=278025672770919&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8888&scope=user_posts&state=df9b8073-617b-4e0f-bb01-6d8016d94ee9">Login Facebook</a>-->
-                                    <a href="https://www.facebook.com/v2.5/dialog/oauth?client_id=278025672770919&redirect_uri=https://localhost:8888/">Login Facebook</a>
-                                    <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8888/login-google&response_type=code&client_id=930932659996-9jvtvg7igq7fm5574b2f5qlbdbm3vh9d.apps.googleusercontent.com&approval_prompt=force">Login With Gmail</a>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="col-lg-4 col-md-4">
+                                    <a href="https://www.facebook.com/v2.5/dialog/oauth?client_id=278025672770919&redirect_uri=https://localhost:8888/">Login
+                                        Facebook</a>
+                                </div>
+                                <div class="col-lg-4 col-md-4">
+                                    <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8888/login-google&response_type=code&client_id=930932659996-9jvtvg7igq7fm5574b2f5qlbdbm3vh9d.apps.googleusercontent.com&approval_prompt=force">Login
+                                        With Gmail</a>
+                                </div>
+                                <div class="col-lg-4 col-md-4">
+                                    <a th:href="@{/registerForm}" role="menuitem">SignUp</a>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </section>
@@ -135,8 +139,6 @@
                     <div class="prev pull-left">
                         <a href="#"><i class="fa fa-reply"></i></a>
                     </div>
-
-                    <!--<div class="posted pull-left"><i class="fa fa-clock-o"></i> <span th:text="${question.diffTime}"></div>-->
 
                     <div class="next pull-right">
                         <a href="#"><i class="fa fa-share"></i></a>

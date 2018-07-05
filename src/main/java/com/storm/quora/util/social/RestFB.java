@@ -1,12 +1,9 @@
-package com.storm.quora.controller;
+package com.storm.quora.util.social;
 
-import com.google.gson.JsonObject;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
-import org.apache.http.client.ClientProtocolException;
-
-import java.io.IOException;
+import org.json.JSONObject;
 
 /*import org.apache.http.client.fluent.Request;
 import com.google.gson.Gson;
@@ -14,11 +11,6 @@ import com.google.gson.JsonObject;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.Version;*/
-
-import org.json.JSONObject;
-import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.facebook.api.User;
-import org.springframework.stereotype.Service;
 
 public class RestFB {
     public static String FACEBOOK_APP_ID = "278025672770919";

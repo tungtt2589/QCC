@@ -1,4 +1,4 @@
-package com.storm.quora.controller;
+package com.storm.quora.util.social;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;

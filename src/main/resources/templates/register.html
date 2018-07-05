@@ -22,7 +22,8 @@
                         <div class="row">
                             <div class="col-lg-8 col-md-8">
                                 <div class="post">
-                                    <form th:action="@{/register}" class="form newtopic" method="post">
+                                    <form th:action="@{/register}" class="form newtopic"
+                                          method="post">
                                         <div class="postinfotop">
                                             <h2>Create New Account</h2>
                                         </div>
@@ -34,33 +35,36 @@
                                                         <img th:src="@{images/avatar.jpg}" alt=""/>
                                                         <div class="status green">&nbsp;</div>
                                                     </div>
-                                                    <!--<div class="imgsize">60 x 60</div>-->
-                                                    <!--<div>-->
-                                                    <!--<button class="btn">Add</button>-->
-                                                    <!--</div>-->
+                                                    <div class="imgsize">60 x 60</div>
+                                                    <div>
+                                                        <!--<button class="btn">Add</button>-->
+                                                    </div>
                                                 </div>
                                                 <div class="posttext pull-left">
                                                     <div class="row">
-                                                        <input th:name="name" type="text" placeholder="Display Name"
+                                                        <input th:name="name" type="text"
+                                                               placeholder="Full name"
                                                                class="form-control"/>
                                                     </div>
                                                     <div class="row">
-                                                        <input th:name="email" type="text" placeholder="Email"
+                                                        <input th:name="email" type="text"
+                                                               placeholder="Email"
                                                                class="form-control"/>
                                                     </div>
                                                     <div class="row">
                                                         <input th:name="username" type="text"
-                                                               placeholder="User Name"
+                                                               placeholder="Username"
                                                                class="form-control"/>
                                                     </div>
                                                     <div class="row">
                                                         <input th:name="password" type="password"
                                                                placeholder="Password"
-                                                               class="form-control" id="pass" name="pass"/>
+                                                               class="form-control" id="pass"/>
                                                     </div>
                                                     <div class="row">
-                                                        <input type="password" placeholder="Retype Password"
-                                                               class="form-control" id="pass2" name="pass2"/>
+                                                        <input th:name="passwordConfirm" type="password"
+                                                               placeholder="Retype Password"
+                                                               class="form-control" id="pass2"/>
                                                     </div>
 
                                                 </div>
