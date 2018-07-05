@@ -111,9 +111,14 @@
             }
         }
     </script>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <title>Trang chủ</title>
+    <style>
+        .fb_iframe_widget span{
+
+        }
+    </style>
 </head>
 <body>
 <div id="fb-root"></div>
@@ -198,7 +203,8 @@
                         <div class="row" style="text-align: center; margin-top: 50px">
                             <!--<div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
 -->
-                            <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+                            <fb:login-button size="xlarge" scope="public_profile,email" onlogin="checkLoginState();">
+                                Sign in
                             </fb:login-button>
 
                             <div id="status">
@@ -211,6 +217,7 @@
                                         data-clientid="930932659996-9jvtvg7igq7fm5574b2f5qlbdbm3vh9d.apps.googleusercontent.com"
                                         data-callback="onSignInCallback"
                                         data-theme="dark"
+                                        data-size="large"
                                         data-cookiepolicy="single_host_origin">
                                 </button>
                                 <!-- Textarea for outputting data -->
