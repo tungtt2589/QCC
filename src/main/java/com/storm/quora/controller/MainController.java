@@ -201,4 +201,23 @@ public class MainController {
         modelAndView.setViewName("index");
         return modelAndView;
     }
+
+    @GetMapping(value = "/", params = "email")
+    public ModelAndView loginGoogle_Email(@RequestParam("email") String email) {
+        List<TopicDTO> topics = new ArrayList<>();
+        questions = new ArrayList<>();
+        questions = null;
+        try {
+            questions = questionService.getAllQuestion();
+            Collections.reverse(questions);
+            topics = service.getAllTopic();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("questions", questions);
+        modelAndView.addObject("topics", topics);
+        modelAndView.setViewName("index");
+        return modelAndView;
+    }
 }

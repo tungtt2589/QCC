@@ -27,12 +27,12 @@
         // Button.  See the onlogin handler attached to it in the sample
         // code below.
         function checkLoginState() {
-            FB.getLoginStatus(function(response) {
+            FB.getLoginStatus(function (response) {
                 statusChangeCallback(response);
             });
         }
 
-        window.fbAsyncInit = function() {
+        window.fbAsyncInit = function () {
             FB.init({
                 appId: '278025672770919',
                 cookie: true,  // enable cookies to allow the server to access
@@ -58,27 +58,28 @@
             });
         };
 
-        (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
             js.src = 'https://connect.facebook.net/vi_VN/sdk.js';
-        /*js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.0&appId=278025672770919&autoLogAppEvents=1';*/
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
+            /*js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.0&appId=278025672770919&autoLogAppEvents=1';*/
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
 
         // Here we run a very simple test of the Graph API after login is
         // successful.  See statusChangeCallback() for when this call is made.
         function testAPI() {
             console.log('Welcome!  Fetching your information.... ');
-            FB.api('/me', function(response) {
+            FB.api('/me', function (response) {
                 console.log('Successful login for: ' + response.name);
                 document.getElementById('status').innerHTML =
                     'Thanks for logging in, ' + response.name + '!';
             });
         }
     </script>
-    <script src = "https://plus.google.com/js/client:platform.js" async defer></script>
+    <script src="https://plus.google.com/js/client:platform.js" async defer></script>
     <script>
         /**
          * Handler for the signin callback triggered after the user selects an account.
@@ -86,28 +87,31 @@
         function onSignInCallback(resp) {
             gapi.client.load('plus', 'v1', apiClientLoaded);
         }
+
         /**
          * Sets up an API call after the Google API client loads.
          */
         function apiClientLoaded() {
             gapi.client.plus.people.get({userId: 'me'}).execute(handleEmailResponse);
         }
+
         /**
          * Response callback for when the API client receives a response.
          *
          * @param resp The API response object with the user email and profile information.
          */
         function handleEmailResponse(resp) {
-            debugger;
-            var primaryEmail;
-            for (var i=0; i < resp.emails.length; i++) {
-                if (resp.emails[i].type === 'account') primaryEmail = resp.emails[i].value;
+            if (resp.code != 403) {
+                var primaryEmail;
+                for (var i = 0; i < resp.emails.length; i++) {
+                    if (resp.emails[i].type === 'account') primaryEmail = resp.emails[i].value;
+                }
+                /*document.getElementById('responseContainer').value = 'Primary email: ' + primaryEmail + '\n\nFull Response:\n' + JSON.stringify(resp);*/
+                window.location = '/?email=' + primaryEmail;
             }
-            document.getElementById('responseContainer').value = 'Primary email: ' +
-                primaryEmail + '\n\nFull Response:\n' + JSON.stringify(resp);
         }
     </script>
-    <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <title>Trang chủ</title>
 </head>
@@ -178,10 +182,12 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6">
                                 <div class="col-lg-4 col-md-4">
-                                    <a href="https://www.facebook.com/v2.5/dialog/oauth?client_id=278025672770919&redirect_uri=https://localhost:8888/">Login Facebook</a>
+                                    <a href="https://www.facebook.com/v2.5/dialog/oauth?client_id=278025672770919&redirect_uri=https://localhost:8888/">Login
+                                        Facebook</a>
                                 </div>
                                 <div class="col-lg-4 col-md-4">
-                                    <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8888/login-google&response_type=code&client_id=930932659996-9jvtvg7igq7fm5574b2f5qlbdbm3vh9d.apps.googleusercontent.com&approval_prompt=force">Login With Gmail</a>
+                                    <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8888/login-google&response_type=code&client_id=930932659996-9jvtvg7igq7fm5574b2f5qlbdbm3vh9d.apps.googleusercontent.com&approval_prompt=force">Login
+                                        With Gmail</a>
                                 </div>
                                 <div class="col-lg-4 col-md-4">
                                     <a th:href="@{/registerForm}" role="menuitem">SignUp</a>
@@ -202,7 +208,6 @@
                         <div class="row" style="text-align: center; margin-top: 50px">
                             <div id="gConnect" class="button">
                                 <button class="g-signin"
-                                        data-scope="email"
                                         data-clientid="930932659996-9jvtvg7igq7fm5574b2f5qlbdbm3vh9d.apps.googleusercontent.com"
                                         data-callback="onSignInCallback"
                                         data-theme="dark"
