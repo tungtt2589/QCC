@@ -1,7 +1,6 @@
 package com.storm.quora.dto;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class QuestionDTO extends BaseDTO implements Serializable {
     public String getKeySet() {
@@ -16,7 +15,7 @@ public class QuestionDTO extends BaseDTO implements Serializable {
     private String createdTime;
     private String diffTime;
     private String editedTime;
-    private long statucId;
+    private long statusId;
     private long answerCount;
     private long upCount;
     private long downCount;
@@ -72,12 +71,12 @@ public class QuestionDTO extends BaseDTO implements Serializable {
         this.editedTime = editedTime;
     }
 
-    public long getStatucId() {
-        return statucId;
+    public long getStatusId() {
+        return statusId;
     }
 
-    public void setStatucId(long statucId) {
-        this.statucId = statucId;
+    public void setStatusId(long statusId) {
+        this.statusId = statusId;
     }
 
     public String getDiffTime() {

@@ -4,6 +4,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.storm.quora.dto.QuestionDTO;
+import com.storm.quora.util.RedisUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class QuestionServiceImpl implements QuestionService {
                 question.setTopicId(jsonObject.getLong("topic_id"));
             }
             if (!jsonObject.isNull("status_id")) {
-                question.setStatucId(jsonObject.getLong("status_id"));
+                question.setStatusId(jsonObject.getLong("status_id"));
             }
             if (!jsonObject.isNull("question_id")) {
                 question.setQuestionId(jsonObject.getLong("question_id"));
@@ -99,7 +100,7 @@ public class QuestionServiceImpl implements QuestionService {
                 question.setTopicId(jsonObject.getLong("topic_id"));
             }
             if (!jsonObject.isNull("status_id")) {
-                question.setStatucId(jsonObject.getLong("status_id"));
+                question.setStatusId(jsonObject.getLong("status_id"));
             }
             if (!jsonObject.isNull("question_id")) {
                 question.setQuestionId(jsonObject.getLong("question_id"));
@@ -156,7 +157,7 @@ public class QuestionServiceImpl implements QuestionService {
             question.setTopicId(jsonObject.getLong("topic_id"));
         }
         if (!jsonObject.isNull("status_id")) {
-            question.setStatucId(jsonObject.getLong("status_id"));
+            question.setStatusId(jsonObject.getLong("status_id"));
         }
         if (!jsonObject.isNull("question_id")) {
             question.setQuestionId(jsonObject.getLong("question_id"));

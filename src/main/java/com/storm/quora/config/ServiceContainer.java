@@ -1,6 +1,5 @@
 package com.storm.quora.config;
 
-import com.storm.quora.cache.redis.CacheService;
 import com.storm.quora.common.ApplicationContextProvider;
 import com.storm.quora.common.ConstantsService;
 import com.storm.quora.service.UserService;
@@ -24,7 +23,6 @@ public class ServiceContainer {
     }
 
     public static UserService userService;
-    public static CacheService cacheService;
     static {
         userService = (UserService) ApplicationContextProvider.getBean(ConstantsService.SERVICE_USER);
 
