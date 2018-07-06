@@ -14,7 +14,7 @@ public class ScheduledTasks {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-    @Scheduled(fixedRate = 600000,fixedDelay = 60000)
+    @Scheduled(fixedRate = 600000)
     public void reportCurrentTime() {
         log.info("The time is now {}", dateFormat.format(new Date()));
         log.info("backup from redis to mysql");

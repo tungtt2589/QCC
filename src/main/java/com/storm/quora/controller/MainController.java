@@ -20,17 +20,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class MainController {
@@ -237,10 +234,17 @@ public class MainController {
                 }
                 long timeNow = new Date().getTime();
                 mc.hset(keyUp, String.valueOf(currentUser.getUserId()), String.valueOf(timeNow));
-                //todo: update list
                 QuestionDTO questionDTO = questions.stream().filter(q -> q.getQuestionId() == Long.valueOf(id)).findAny().orElse(null);
+//                int index = questions.indexOf(questionDTO);
                 logger.info("filter: " + new Gson().toJson(questionDTO));
                 logger.info("size list question: " + questions.size());
+                long countUp = mc.hlen(keyUp);
+                long countDown = mc.hlen(keyDown);
+                if (questionDTO != null) {
+                    questionDTO.setUpCount(countUp);
+                    questionDTO.setDownCount(countDown);
+                }
+//                modelAndView.getModelMap().addAttribute("questions", questions);
                 modelAndView.getModelMap().addAttribute("countup", mc.hlen(keyUp));
                 modelAndView.getModelMap().addAttribute("countdown", mc.hlen(keyDown));
             }
@@ -273,10 +277,19 @@ public class MainController {
                 }
                 long timeNow = new Date().getTime();
                 mc.hset(keyDown, String.valueOf(currentUser.getUserId()), String.valueOf(timeNow));
-                //todo: update list
+                QuestionDTO questionDTO = questions.stream().filter(q -> q.getQuestionId() == Long.valueOf(id)).findAny().orElse(null);
+//                int index = questions.indexOf(questionDTO);
+                logger.info("filter: " + new Gson().toJson(questionDTO));
                 logger.info("size list question: " + questions.size());
-                modelAndView.getModelMap().addAttribute("countup", mc.hlen(keyUp));
-                modelAndView.getModelMap().addAttribute("countdown", mc.hlen(keyDown));
+                long countUp = mc.hlen(keyUp);
+                long countDown = mc.hlen(keyDown);
+                if (questionDTO != null) {
+                    questionDTO.setUpCount(countUp);
+                    questionDTO.setDownCount(countDown);
+                }
+                modelAndView.getModelMap().addAttribute("questions", questions);
+//                modelAndView.getModelMap().addAttribute("countup", mc.hlen(keyUp));
+//                modelAndView.getModelMap().addAttribute("countdown", mc.hlen(keyDown));
             }
         } catch (Exception e) {
             logger.error(e.getMessage());

@@ -43,8 +43,6 @@ public class QuestionServiceImpl implements QuestionService {
             }
             if (!jsonObject.isNull("question_id")) {
                 question.setQuestionId(jsonObject.getLong("question_id"));
-//                question.setCountUpVote(RedisUtil.getCountUpVote(String.valueOf(question.getQuestionId())));
-//                question.setCountDownVote(RedisUtil.getCountDownVote(String.valueOf(question.getQuestionId())));
             }
             if (!jsonObject.isNull("content")) {
                 question.setContent(jsonObject.getString("content"));
