@@ -192,6 +192,7 @@
                         upCount = parseInt(upCount) + 1;
                         $('.upCount_' + questionId).html(upCount);*/
                         $('.upCount_' + questionId).html(data.upCount);
+                        $('.downCount_' + questionId).html(data.downCount);
                     }
                     else {
                         alert(message);
@@ -221,6 +222,7 @@
                         /*var downCount = $('.downCount_' + questionId).html();
                         downCount = parseInt(downCount) - 1;
                         $('.downCount_' + questionId).html(downCount);*/
+                        $('.upCount_' + questionId).html(data.upCount);
                         $('.downCount_' + questionId).html(data.downCount);
                     }
                     else {
