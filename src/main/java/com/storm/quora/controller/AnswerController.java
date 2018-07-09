@@ -21,7 +21,7 @@ public class AnswerController {
     private String aUpVote = "vote:answer:%s:up";
     private String aDownVote = "vote:answer:%s:down";
 
-    @RequestMapping(value = "/upVoteAnswer")
+    @RequestMapping(value = "/upVoteAnswer", method = RequestMethod.GET)
     public ModelAndView upVoteAnswer(@ModelAttribute QuestionDTO questionDTO) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         String keyUp = String.format(aUpVote, questionDTO.getQuestionId());
@@ -48,7 +48,7 @@ public class AnswerController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/downVoteAnswer")
+    @RequestMapping(value = "/downVoteAnswer", method = RequestMethod.GET)
     public ModelAndView downVoteAnswer(@ModelAttribute QuestionDTO questionDTO) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         String keyUp = String.format(aUpVote, questionDTO.getQuestionId());
