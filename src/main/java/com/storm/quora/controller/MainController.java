@@ -1,11 +1,11 @@
 package com.storm.quora.controller;
 
-import com.storm.quora.common.AjaxResponseBody;
-import com.storm.quora.common.GooglePojo;
 import com.google.gson.Gson;
 import com.storm.quora.cache.RedisCache;
 import com.storm.quora.cache.redis.CacheManager;
 import com.storm.quora.cache.redis.MainCache;
+import com.storm.quora.common.AjaxResponseBody;
+import com.storm.quora.common.GooglePojo;
 import com.storm.quora.config.UserAuthentication;
 import com.storm.quora.dto.AnswerDTO;
 import com.storm.quora.dto.QuestionDTO;
@@ -356,26 +356,62 @@ public class MainController {
         return ResponseEntity.ok(result);
     }*/
 
-    @GetMapping(value = "/up_vote" , params = "question_id")
+    @GetMapping(value = "/up_vote", params = "question_id")
     public ResponseEntity<?> up_vote(@RequestParam("question_id") Long id) {
-
+        String keyUp = String.format(Constant.UP_VOTE_QUESTION_CACHE_FORMAT, id);
+        String keyDown = String.format(Constant.DOWN_VOTE_QUESTION_CACHE_FORMAT, id);
         AjaxResponseBody result = new AjaxResponseBody();
         try {
+            if (UserAuthentication.getCurrentUser() == null) {
+                result.msg = "login_require";
+                return ResponseEntity.ok(result);
+            }
             result.msg = "up";
+            CacheManager cm = RedisCache.getManager();
+            if (cm != null) {
+                MainCache mc = cm.getMainCache();
+                User currentUser = UserAuthentication.getCurrentUser();
+                if (mc.exists(keyDown) && mc.hexists(keyDown, String.valueOf(currentUser.getUserId()))) {
+                    mc.hdel(keyDown, String.valueOf(currentUser.getUserId()));
+                }
+                long timeNow = new Date().getTime();
+                mc.hset(keyUp, String.valueOf(currentUser.getUserId()), String.valueOf(timeNow));
+                result.upCount = mc.hlen(keyUp);
+                result.downCount = mc.hlen(keyDown);
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping(value = "/down_vote" , params = "question_id")
+    @GetMapping(value = "/down_vote", params = "question_id")
     public ResponseEntity<?> down_vote(@RequestParam("question_id") Long id) {
-
+        String keyUp = String.format(Constant.UP_VOTE_QUESTION_CACHE_FORMAT, id);
+        String keyDown = String.format(Constant.DOWN_VOTE_QUESTION_CACHE_FORMAT, id);
         AjaxResponseBody result = new AjaxResponseBody();
         try {
+            if (UserAuthentication.getCurrentUser() == null) {
+                result.msg = "login_require";
+                return ResponseEntity.ok(result);
+            }
             result.msg = "down";
+            CacheManager cm = RedisCache.getManager();
+            if (cm != null) {
+                MainCache mc = cm.getMainCache();
+                User currentUser = UserAuthentication.getCurrentUser();
+                if (mc.exists(keyUp) && mc.hexists(keyUp, String.valueOf(currentUser.getUserId()))) {
+                    mc.hdel(keyUp, String.valueOf(currentUser.getUserId()));
+                }
+                long timeNow = new Date().getTime();
+                mc.hset(keyDown, String.valueOf(currentUser.getUserId()), String.valueOf(timeNow));
+                result.upCount = mc.hlen(keyUp);
+                result.downCount = mc.hlen(keyDown);
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return ResponseEntity.ok(result);
     }
