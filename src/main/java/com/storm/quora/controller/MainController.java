@@ -1,5 +1,6 @@
 package com.storm.quora.controller;
 
+import com.storm.quora.common.AjaxResponseBody;
 import com.storm.quora.common.GooglePojo;
 import com.google.gson.Gson;
 import com.storm.quora.cache.RedisCache;

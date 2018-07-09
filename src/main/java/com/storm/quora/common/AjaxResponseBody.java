@@ -1,4 +1,4 @@
-package com.storm.quora.controller;
+package com.storm.quora.common;
 
 import java.util.List;
 
