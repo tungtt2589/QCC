@@ -188,10 +188,10 @@
                 success: function (data) {
                     var message = data.msg;
                     if (message == 'up') {
-                        var upCount = $('.upCount_' + questionId).html();
+                        /*var upCount = $('.upCount_' + questionId).html();
                         upCount = parseInt(upCount) + 1;
-                        $('.upCount_' + questionId).html(upCount);
-                        /*$('.upCount_' + questionId).html(data.upCount);*/
+                        $('.upCount_' + questionId).html(upCount);*/
+                        $('.upCount_' + questionId).html(data.upCount);
                     }
                     else {
                         alert(message);
@@ -218,10 +218,10 @@
                 success: function (data) {
                     var message = data.msg;
                     if (message == 'down') {
-                        var downCount = $('.downCount_' + questionId).html();
+                        /*var downCount = $('.downCount_' + questionId).html();
                         downCount = parseInt(downCount) - 1;
-                        $('.downCount_' + questionId).html(downCount);
-                        /*$('.downCount_' + questionId).html(data.downCount);*/
+                        $('.downCount_' + questionId).html(downCount);*/
+                        $('.downCount_' + questionId).html(data.downCount);
                     }
                     else {
                         alert(message);
