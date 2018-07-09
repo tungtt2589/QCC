@@ -19,6 +19,7 @@ import com.storm.quora.util.social.RestFB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -316,5 +317,65 @@ public class MainController {
         modelAndView.addObject("topics", topics);
         modelAndView.setViewName("index");
         return modelAndView;
+    }
+
+    /*@RequestMapping(value = "/angular", method = RequestMethod.GET)
+    public ModelAndView angularjs() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("angular");
+        return modelAndView;
+    }*/
+
+    /*@RequestMapping(value = "/ajax_angular", method = RequestMethod.GET)
+    @ResponseBody
+    public String ajax_angular() {
+        List<TopicDTO> topics = new ArrayList<>();
+        return "{\"success\":1}";
+    }*/
+
+    /*@RequestMapping(value = "/js", method = RequestMethod.GET)
+    public ModelAndView demojs() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("demojs");
+        return modelAndView;
+    }*/
+
+    /*@RequestMapping(value = "/ajax_angular", method = RequestMethod.GET)
+    public ResponseEntity<?> ajax_angular() {
+        AjaxResponseBody result = new AjaxResponseBody();
+        List<QuestionDTO> questions = new ArrayList<>();
+        try {
+            questions = questionService.getAllQuestion();
+            *//*Collections.reverse(questions);*//*
+            result.msg = "1";
+            result.result = questions;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(result);
+    }*/
+
+    @GetMapping(value = "/up_vote" , params = "question_id")
+    public ResponseEntity<?> up_vote(@RequestParam("question_id") Long id) {
+
+        AjaxResponseBody result = new AjaxResponseBody();
+        try {
+            result.msg = "up";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping(value = "/down_vote" , params = "question_id")
+    public ResponseEntity<?> down_vote(@RequestParam("question_id") Long id) {
+
+        AjaxResponseBody result = new AjaxResponseBody();
+        try {
+            result.msg = "down";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(result);
     }
 }
