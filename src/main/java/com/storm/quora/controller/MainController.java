@@ -415,4 +415,40 @@ public class MainController {
         }
         return ResponseEntity.ok(result);
     }
+
+    @GetMapping(value = "/up_vote_answer", params = "answer_id")
+    public ResponseEntity<?> up_vote_answer(@RequestParam("answer_id") Long id) {
+        AjaxResponseBody result = new AjaxResponseBody();
+        try {
+            if (UserAuthentication.getCurrentUser() == null) {
+                result.msg = "login_require";
+                return ResponseEntity.ok(result);
+            }
+            result.msg = "up";
+            result.upCount = 25;
+            result.downCount = 35;
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping(value = "/down_vote_answer", params = "answer_id")
+    public ResponseEntity<?> down_vote_answer(@RequestParam("answer_id") Long id) {
+        AjaxResponseBody result = new AjaxResponseBody();
+        try {
+            if (UserAuthentication.getCurrentUser() == null) {
+                result.msg = "login_require";
+                return ResponseEntity.ok(result);
+            }
+            result.msg = "down";
+            result.upCount = 25;
+            result.downCount = 35;
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+        }
+        return ResponseEntity.ok(result);
+    }
 }
