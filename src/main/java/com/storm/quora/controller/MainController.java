@@ -6,6 +6,7 @@ import com.storm.quora.cache.redis.CacheManager;
 import com.storm.quora.cache.redis.MainCache;
 import com.storm.quora.common.AjaxResponseBody;
 import com.storm.quora.common.GooglePojo;
+import com.storm.quora.common.GoogleProfile;
 import com.storm.quora.config.UserAuthentication;
 import com.storm.quora.dto.AnswerDTO;
 import com.storm.quora.dto.QuestionDTO;
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -165,56 +168,6 @@ public class MainController {
         return modelAndView;
     }
 
-    @GetMapping(value = "/", params = "code")
-    public ModelAndView loginFacebook(@RequestParam("code") String code) {
-        if (code == null || code.isEmpty()) {
-
-        } else {
-            /*model.addAttribute("facebookProfile", facebook.userOperations().getUserProfile());
-        PagedList<Post> feed = facebook.feedOperations().getFeed();
-        model.addAttribute("feed", feed);*/
-
-            /*String [] fields = { "id", "about", "age_range", "birthday", "context", "cover", "currency", "devices", "education", "email", "favorite_athletes", "favorite_teams", "first_name", "gender", "hometown", "inspirational_people", "installed", "install_type", "is_verified", "languages", "last_name", "link", "locale", "location", "meeting_for", "middle_name", "name", "name_format", "political", "quotes", "payment_pricepoints", "relationship_status", "religion", "security_settings", "significant_other", "sports", "test_group", "timezone", "third_party_id", "updated_time", "verified", "video_upload_limits", "viewer_can_send_gift", "website", "work"};
-            User user = facebook.fetchObject("me", User.class, fields);*/
-
-
-            try {
-                String accessToken = "";
-                accessToken = RestFB.getToken(code);
-                /*User user = RestFB.getUserInfo(accessToken);*/
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        ModelAndView modelAndView = new ModelAndView();
-        /*modelAndView.addObject("questions", questions1);
-        modelAndView.addObject("topics", topics);*/
-        modelAndView.setViewName("index");
-        return modelAndView;
-    }
-
-    @GetMapping(value = "/login-google", params = "code")
-    public ModelAndView loginGoogle(@RequestParam("code") String code) {
-        if (code == null || code.isEmpty()) {
-
-        }
-
-        try {
-            String accessToken = GoogleUtils.getToken(code);
-            GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
-            String name = googlePojo.getName();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        ModelAndView modelAndView = new ModelAndView();
-        /*modelAndView.addObject("questions", questions1);
-        modelAndView.addObject("topics", topics);*/
-        modelAndView.setViewName("index");
-        return modelAndView;
-    }
-
     @GetMapping(value = "/up", params = "id")
     public ModelAndView upVote(@RequestParam("id") String id, RedirectAttributes redirectAttributes) throws Exception {
         logger.info("question id: " + id);
@@ -299,25 +252,6 @@ public class MainController {
         modelAndView.setViewName("forward:/");
         return modelAndView;
 
-    }
-
-    @GetMapping(value = "/", params = "email")
-    public ModelAndView loginGoogle_Email(@RequestParam("email") String email) {
-        List<TopicDTO> topics = new ArrayList<>();
-        questions = new ArrayList<>();
-        questions = null;
-        try {
-            questions = questionService.getAllQuestion();
-            Collections.reverse(questions);
-            topics = service.getAllTopic();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("questions", questions);
-        modelAndView.addObject("topics", topics);
-        modelAndView.setViewName("index");
-        return modelAndView;
     }
 
     /*@RequestMapping(value = "/angular", method = RequestMethod.GET)
@@ -451,4 +385,56 @@ public class MainController {
         }
         return ResponseEntity.ok(result);
     }
+
+    /*@GetMapping(value = "/", params = "code")
+    public ModelAndView loginFacebook(@RequestParam("code") String code) {
+        if (code == null || code.isEmpty()) {
+
+        } else {
+            *//*model.addAttribute("facebookProfile", facebook.userOperations().getUserProfile());
+        PagedList<Post> feed = facebook.feedOperations().getFeed();
+        model.addAttribute("feed", feed);*//*
+
+     *//*String [] fields = { "id", "about", "age_range", "birthday", "context", "cover", "currency", "devices", "education", "email", "favorite_athletes", "favorite_teams", "first_name", "gender", "hometown", "inspirational_people", "installed", "install_type", "is_verified", "languages", "last_name", "link", "locale", "location", "meeting_for", "middle_name", "name", "name_format", "political", "quotes", "payment_pricepoints", "relationship_status", "religion", "security_settings", "significant_other", "sports", "test_group", "timezone", "third_party_id", "updated_time", "verified", "video_upload_limits", "viewer_can_send_gift", "website", "work"};
+            User user = facebook.fetchObject("me", User.class, fields);*//*
+
+
+            try {
+                String accessToken = "";
+                accessToken = RestFB.getToken(code);
+                *//*User user = RestFB.getUserInfo(accessToken);*//*
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        *//*modelAndView.addObject("questions", questions1);
+        modelAndView.addObject("topics", topics);*//*
+        modelAndView.setViewName("index");
+        return modelAndView;
+    }*/
+
+    /*@GetMapping(value = "/login-google", params = "code")
+    public ModelAndView loginGoogle(@RequestParam("code") String code) {
+        if (code == null || code.isEmpty()) {
+
+        }
+
+        try {
+            String accessToken = GoogleUtils.getToken(code);
+            GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
+            String name = googlePojo.getName();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        *//*modelAndView.addObject("questions", questions1);
+        modelAndView.addObject("topics", topics);*//*
+        modelAndView.setViewName("index");
+        return modelAndView;
+    }*/
+
+
 }

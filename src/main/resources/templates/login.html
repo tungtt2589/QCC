@@ -102,12 +102,43 @@
          */
         function handleEmailResponse(resp) {
             if (resp.code != 403) {
+                debugger;
+                var id = resp.id;
+                var displayName = resp.displayName;
+                var image_url = resp.image.url;
+
                 var primaryEmail;
                 for (var i = 0; i < resp.emails.length; i++) {
                     if (resp.emails[i].type === 'account') primaryEmail = resp.emails[i].value;
                 }
+
                 /*document.getElementById('responseContainer').value = 'Primary email: ' + primaryEmail + '\n\nFull Response:\n' + JSON.stringify(resp);*/
-                window.location = '/?email=' + primaryEmail;
+                /*window.location = '/?email=' + primaryEmail;*/
+
+                var profile = {};
+                profile["id"] = id;
+                profile["display_name"] = displayName;
+                profile["email"] = primaryEmail;
+                profile["image_url"] = image_url;
+
+                $.ajax({
+                    url: "/login_google_2",
+                    type : 'POST',
+                    contentType: "application/json",
+                    data: JSON.stringify(profile),
+                    dataType: 'json',
+                    beforeSend: function () {
+
+                    },
+                    headers: {},
+                    success: function (data) {
+                        var message = data.msg;
+                        alert(message);
+                    },
+                    error: function (data) {
+                        alert("Đã có lỗi xảy ra. Vui lòng thử lại !");
+                    },
+                });
             }
         }
     </script>
@@ -115,7 +146,7 @@
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <title>Trang chủ</title>
     <style>
-        .fb_iframe_widget span{
+        .fb_iframe_widget span {
 
         }
     </style>
