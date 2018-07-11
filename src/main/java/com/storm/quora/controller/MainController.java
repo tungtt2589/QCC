@@ -254,42 +254,6 @@ public class MainController {
 
     }
 
-    /*@RequestMapping(value = "/angular", method = RequestMethod.GET)
-    public ModelAndView angularjs() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("angular");
-        return modelAndView;
-    }*/
-
-    /*@RequestMapping(value = "/ajax_angular", method = RequestMethod.GET)
-    @ResponseBody
-    public String ajax_angular() {
-        List<TopicDTO> topics = new ArrayList<>();
-        return "{\"success\":1}";
-    }*/
-
-    /*@RequestMapping(value = "/js", method = RequestMethod.GET)
-    public ModelAndView demojs() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("demojs");
-        return modelAndView;
-    }*/
-
-    /*@RequestMapping(value = "/ajax_angular", method = RequestMethod.GET)
-    public ResponseEntity<?> ajax_angular() {
-        AjaxResponseBody result = new AjaxResponseBody();
-        List<QuestionDTO> questions = new ArrayList<>();
-        try {
-            questions = questionService.getAllQuestion();
-            *//*Collections.reverse(questions);*//*
-            result.msg = "1";
-            result.result = questions;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ResponseEntity.ok(result);
-    }*/
-
     @GetMapping(value = "/up_vote", params = "question_id")
     public ResponseEntity<?> up_vote(@RequestParam("question_id") Long id) {
         String keyUp = String.format(Constant.UP_VOTE_QUESTION_CACHE_FORMAT, id);
@@ -378,27 +342,5 @@ public class MainController {
         modelAndView.setViewName("index");
         return modelAndView;
     }*/
-
-    /*@GetMapping(value = "/login-google", params = "code")
-    public ModelAndView loginGoogle(@RequestParam("code") String code) {
-        if (code == null || code.isEmpty()) {
-
-        }
-
-        try {
-            String accessToken = GoogleUtils.getToken(code);
-            GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
-            String name = googlePojo.getName();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        ModelAndView modelAndView = new ModelAndView();
-        *//*modelAndView.addObject("questions", questions1);
-        modelAndView.addObject("topics", topics);*//*
-        modelAndView.setViewName("index");
-        return modelAndView;
-    }*/
-
 
 }
