@@ -5,9 +5,7 @@ import com.storm.quora.common.GoogleProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.stream.Collectors;
@@ -17,7 +15,14 @@ import org.springframework.validation.Errors;
 public class RestWebController {
     private static final Logger logger = LoggerFactory.getLogger(RestWebController.class);
 
-    @PostMapping(value = "/login_google_2")
+    @RequestMapping(value = "/login_google", method = RequestMethod.POST)
+    public ResponseEntity<?> loginGoogle(@RequestBody GoogleProfile profile) {
+        AjaxResponseBody result = new AjaxResponseBody();
+        result.msg = "Email: " + profile.getEmail();
+        return ResponseEntity.ok(result);
+    }
+
+    /*@PostMapping(value = "/login_google")
     public ResponseEntity<?> loginGoogle(@Valid @RequestBody GoogleProfile profile, Errors errors) {
         AjaxResponseBody result = new AjaxResponseBody();
 
@@ -35,7 +40,7 @@ public class RestWebController {
             logger.error(e.getMessage());
         }
         return ResponseEntity.ok(result);
-    }
+    }*/
 
     /*@PostMapping(value = "/login_google")
     public ResponseEntity<?> loginGoogle(@Valid @RequestBody GoogleProfile profile, Error error) {

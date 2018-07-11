@@ -1,16 +1,16 @@
 package com.storm.quora.common;
 
 public class GoogleProfile {
-    private Long id;
+    private String id;
     private String display_name;
     private String email;
     private String image_url;
 
-    public Long getId() {
+    public String getId() {
         return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

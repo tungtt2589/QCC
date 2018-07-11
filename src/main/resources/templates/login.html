@@ -122,11 +122,10 @@
                 profile["image_url"] = image_url;
 
                 $.ajax({
-                    url: "/login_google_2",
+                    url: "/login_google",
                     type : 'POST',
                     contentType: "application/json",
                     data: JSON.stringify(profile),
-                    dataType: 'json',
                     beforeSend: function () {
 
                     },
@@ -142,7 +141,7 @@
             }
         }
     </script>
-    <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"/>
+    <!--<link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"/>-->
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <title>Trang chủ</title>
     <style>
