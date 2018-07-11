@@ -10,7 +10,7 @@ public class RestWebController {
     @RequestMapping(value = "/login_google", method = RequestMethod.POST)
     public ResponseEntity<?> loginGoogle(@RequestBody GoogleProfile profile) {
         AjaxResponseBody result = new AjaxResponseBody();
-        result.msg = "Email: " + profile.getEmail();
+        result.msg = "Access Token: " + profile.getAccess_token();
         return ResponseEntity.ok(result);
     }
 }

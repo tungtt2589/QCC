@@ -5,6 +5,7 @@ public class GoogleProfile {
     private String display_name;
     private String email;
     private String image_url;
+    private String access_token;
 
     public String getId() {
         return this.id;
@@ -36,5 +37,13 @@ public class GoogleProfile {
 
     public void setImage_url(String image_url) {
         this.image_url = image_url;
+    }
+
+    public String getAccess_token() {
+        return this.access_token;
+    }
+
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
     }
 }

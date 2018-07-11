@@ -84,7 +84,10 @@
         /**
          * Handler for the signin callback triggered after the user selects an account.
          */
+        var access_token = "";
         function onSignInCallback(resp) {
+            debugger;
+            access_token = typeof resp.access_token !== 'undefined' ? resp.access_token : "";
             gapi.client.load('plus', 'v1', apiClientLoaded);
         }
 
@@ -108,11 +111,12 @@
                 var image_url = typeof resp.image.url !== 'undefined' ? resp.image.url : "";
 
                 var primaryEmail = "";
-                if(typeof resp.emails !== 'undefined'){
+                if (typeof resp.emails !== 'undefined') {
                     for (var i = 0; i < resp.emails.length; i++) {
                         if (resp.emails[i].type === 'account') primaryEmail = resp.emails[i].value;
                     }
                 }
+
 
                 /*document.getElementById('responseContainer').value = 'Primary email: ' + primaryEmail + '\n\nFull Response:\n' + JSON.stringify(resp);*/
                 /*window.location = '/?email=' + primaryEmail;*/
@@ -122,10 +126,11 @@
                 profile["display_name"] = displayName;
                 profile["email"] = primaryEmail;
                 profile["image_url"] = image_url;
+                profile["access_token"] = access_token;
 
                 $.ajax({
                     url: "/login_google",
-                    type : 'POST',
+                    type: 'POST',
                     contentType: "application/json",
                     data: JSON.stringify(profile),
                     beforeSend: function () {
