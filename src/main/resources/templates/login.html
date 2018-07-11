@@ -103,13 +103,15 @@
         function handleEmailResponse(resp) {
             if (resp.code != 403) {
                 debugger;
-                var id = resp.id;
-                var displayName = resp.displayName;
-                var image_url = resp.image.url;
+                var id = typeof resp.id !== 'undefined' ? resp.id : "";
+                var displayName = typeof resp.displayName !== 'undefined' ? resp.displayName : "";
+                var image_url = typeof resp.image.url !== 'undefined' ? resp.image.url : "";
 
-                var primaryEmail;
-                for (var i = 0; i < resp.emails.length; i++) {
-                    if (resp.emails[i].type === 'account') primaryEmail = resp.emails[i].value;
+                var primaryEmail = "";
+                if(typeof resp.emails !== 'undefined'){
+                    for (var i = 0; i < resp.emails.length; i++) {
+                        if (resp.emails[i].type === 'account') primaryEmail = resp.emails[i].value;
+                    }
                 }
 
                 /*document.getElementById('responseContainer').value = 'Primary email: ' + primaryEmail + '\n\nFull Response:\n' + JSON.stringify(resp);*/
