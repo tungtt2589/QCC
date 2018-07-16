@@ -219,6 +219,13 @@ public abstract class CacheService {
 
     }
 
+    /**
+     * thêm 1 phần tử vào đầu danh sách
+     *
+     * @param key
+     * @param item
+     * @return ret
+     */
     public Long lput(String key, String item) {
         Jedis jedis = null;
         Long ret = 0L;
@@ -237,7 +244,13 @@ public abstract class CacheService {
         }
     }
 
-    public String rpop(String key) {
+    /**
+     * pop ra phần tử cuối ds
+     *
+     * @param key
+     * @return ret
+     */
+    public String lpop(String key) {
         Jedis jedis = null;
         String ret = null;
 
@@ -254,6 +267,27 @@ public abstract class CacheService {
         }
     }
 
+    public String lindex(String key, Long index) {
+        Jedis jedis = null;
+        String ret = null;
+
+        try {
+            jedis = this.underlyingPool.getResource();
+            ret = jedis.lindex(this.makeKey(key), index);
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+            return ret;
+        }
+    }
+
+    /**
+     * số phần tử của ds
+     *
+     * @param key
+     * @return ret
+     */
     public Long llen(String key) {
         Jedis jedis = null;
         Long ret = 0L;
@@ -270,6 +304,14 @@ public abstract class CacheService {
         }
     }
 
+    /**
+     * lấy ds theo 1 khoảng chỉ số
+     *
+     * @param key
+     * @param start
+     * @param end
+     * @return
+     */
     public List<String> lrange(String key, long start, long end) {
         Jedis jedis = null;
         List ret = null;
@@ -387,5 +429,18 @@ public abstract class CacheService {
             }
         }
 
+    }
+
+    public Set<String> lkeys(String key) {
+        Jedis jedis = null;
+
+        try {
+            jedis = this.underlyingPool.getResource();
+            return jedis.keys(this.makeKey(key));
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
     }
 }

@@ -21,6 +21,8 @@ public class UserDTO implements Serializable {
     private long role;
     private String lastActivityTime;
     private long userStatus;
+    private String facebookId;
+    private String googleId;
 
     public UserDTO() {
     }
@@ -159,5 +161,21 @@ public class UserDTO implements Serializable {
 
     public void setUserStatus(long userStatus) {
         this.userStatus = userStatus;
+    }
+
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
 }

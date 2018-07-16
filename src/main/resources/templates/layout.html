@@ -104,7 +104,7 @@
             </div>
         </div>
     </header>
-    <div id="messagediv" th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
+    <div layout:fragment="msg-alert" id="messagediv" th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
     <!--CONTENT-->
     <div class="container">
         <div class="row">
