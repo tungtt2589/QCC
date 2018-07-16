@@ -1,11 +1,11 @@
 package com.storm.quora.controller;
 
-import com.storm.quora.common.AjaxResponseBody;
-import com.storm.quora.common.GooglePojo;
 import com.google.gson.Gson;
 import com.storm.quora.cache.RedisCache;
 import com.storm.quora.cache.redis.CacheManager;
 import com.storm.quora.cache.redis.MainCache;
+import com.storm.quora.common.AjaxResponseBody;
+import com.storm.quora.common.GoogleProfile;
 import com.storm.quora.config.UserAuthentication;
 import com.storm.quora.dto.AnswerDTO;
 import com.storm.quora.dto.QuestionDTO;
@@ -15,8 +15,6 @@ import com.storm.quora.service.AnswerService;
 import com.storm.quora.service.QuestionService;
 import com.storm.quora.service.TopicService;
 import com.storm.quora.util.Constant;
-import com.storm.quora.util.social.GoogleUtils;
-import com.storm.quora.util.social.RestFB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -165,56 +165,6 @@ public class MainController {
         return modelAndView;
     }
 
-    @GetMapping(value = "/", params = "code")
-    public ModelAndView loginFacebook(@RequestParam("code") String code) {
-        if (code == null || code.isEmpty()) {
-
-        } else {
-            /*model.addAttribute("facebookProfile", facebook.userOperations().getUserProfile());
-        PagedList<Post> feed = facebook.feedOperations().getFeed();
-        model.addAttribute("feed", feed);*/
-
-            /*String [] fields = { "id", "about", "age_range", "birthday", "context", "cover", "currency", "devices", "education", "email", "favorite_athletes", "favorite_teams", "first_name", "gender", "hometown", "inspirational_people", "installed", "install_type", "is_verified", "languages", "last_name", "link", "locale", "location", "meeting_for", "middle_name", "name", "name_format", "political", "quotes", "payment_pricepoints", "relationship_status", "religion", "security_settings", "significant_other", "sports", "test_group", "timezone", "third_party_id", "updated_time", "verified", "video_upload_limits", "viewer_can_send_gift", "website", "work"};
-            User user = facebook.fetchObject("me", User.class, fields);*/
-
-
-            try {
-                String accessToken = "";
-                accessToken = RestFB.getToken(code);
-                /*User user = RestFB.getUserInfo(accessToken);*/
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        ModelAndView modelAndView = new ModelAndView();
-        /*modelAndView.addObject("questions", questions1);
-        modelAndView.addObject("topics", topics);*/
-        modelAndView.setViewName("index");
-        return modelAndView;
-    }
-
-    @GetMapping(value = "/login-google", params = "code")
-    public ModelAndView loginGoogle(@RequestParam("code") String code) {
-        if (code == null || code.isEmpty()) {
-
-        }
-
-        try {
-            String accessToken = GoogleUtils.getToken(code);
-            GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
-            String name = googlePojo.getName();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        ModelAndView modelAndView = new ModelAndView();
-        /*modelAndView.addObject("questions", questions1);
-        modelAndView.addObject("topics", topics);*/
-        modelAndView.setViewName("index");
-        return modelAndView;
-    }
-
     @GetMapping(value = "/up", params = "id")
     public ModelAndView upVote(@RequestParam("id") String id, RedirectAttributes redirectAttributes) throws Exception {
         logger.info("question id: " + id);
@@ -301,82 +251,93 @@ public class MainController {
 
     }
 
-    @GetMapping(value = "/", params = "email")
-    public ModelAndView loginGoogle_Email(@RequestParam("email") String email) {
-        List<TopicDTO> topics = new ArrayList<>();
-        questions = new ArrayList<>();
-        questions = null;
+    @GetMapping(value = "/up_vote", params = "question_id")
+    public ResponseEntity<?> up_vote(@RequestParam("question_id") Long id) {
+        String keyUp = String.format(Constant.UP_VOTE_QUESTION_CACHE_FORMAT, id);
+        String keyDown = String.format(Constant.DOWN_VOTE_QUESTION_CACHE_FORMAT, id);
+        AjaxResponseBody result = new AjaxResponseBody();
         try {
-            questions = questionService.getAllQuestion();
-            Collections.reverse(questions);
-            topics = service.getAllTopic();
+            if (UserAuthentication.getCurrentUser() == null) {
+                result.msg = "login_require";
+                return ResponseEntity.ok(result);
+            }
+            result.msg = "up";
+            CacheManager cm = RedisCache.getManager();
+            if (cm != null) {
+                MainCache mc = cm.getMainCache();
+                User currentUser = UserAuthentication.getCurrentUser();
+                if (mc.exists(keyDown) && mc.hexists(keyDown, String.valueOf(currentUser.getUserId()))) {
+                    mc.hdel(keyDown, String.valueOf(currentUser.getUserId()));
+                }
+                long timeNow = new Date().getTime();
+                mc.hset(keyUp, String.valueOf(currentUser.getUserId()), String.valueOf(timeNow));
+                result.upCount = mc.hlen(keyUp);
+                result.downCount = mc.hlen(keyDown);
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error(e.getMessage());
         }
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping(value = "/down_vote", params = "question_id")
+    public ResponseEntity<?> down_vote(@RequestParam("question_id") Long id) {
+        String keyUp = String.format(Constant.UP_VOTE_QUESTION_CACHE_FORMAT, id);
+        String keyDown = String.format(Constant.DOWN_VOTE_QUESTION_CACHE_FORMAT, id);
+        AjaxResponseBody result = new AjaxResponseBody();
+        try {
+            if (UserAuthentication.getCurrentUser() == null) {
+                result.msg = "login_require";
+                return ResponseEntity.ok(result);
+            }
+            result.msg = "down";
+            CacheManager cm = RedisCache.getManager();
+            if (cm != null) {
+                MainCache mc = cm.getMainCache();
+                User currentUser = UserAuthentication.getCurrentUser();
+                if (mc.exists(keyUp) && mc.hexists(keyUp, String.valueOf(currentUser.getUserId()))) {
+                    mc.hdel(keyUp, String.valueOf(currentUser.getUserId()));
+                }
+                long timeNow = new Date().getTime();
+                mc.hset(keyDown, String.valueOf(currentUser.getUserId()), String.valueOf(timeNow));
+                result.upCount = mc.hlen(keyUp);
+                result.downCount = mc.hlen(keyDown);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    /*@GetMapping(value = "/", params = "code")
+    public ModelAndView loginFacebook(@RequestParam("code") String code) {
+        if (code == null || code.isEmpty()) {
+
+        } else {
+            *//*model.addAttribute("facebookProfile", facebook.userOperations().getUserProfile());
+        PagedList<Post> feed = facebook.feedOperations().getFeed();
+        model.addAttribute("feed", feed);*//*
+
+     *//*String [] fields = { "id", "about", "age_range", "birthday", "context", "cover", "currency", "devices", "education", "email", "favorite_athletes", "favorite_teams", "first_name", "gender", "hometown", "inspirational_people", "installed", "install_type", "is_verified", "languages", "last_name", "link", "locale", "location", "meeting_for", "middle_name", "name", "name_format", "political", "quotes", "payment_pricepoints", "relationship_status", "religion", "security_settings", "significant_other", "sports", "test_group", "timezone", "third_party_id", "updated_time", "verified", "video_upload_limits", "viewer_can_send_gift", "website", "work"};
+            User user = facebook.fetchObject("me", User.class, fields);*//*
+
+
+            try {
+                String accessToken = "";
+                accessToken = RestFB.getToken(code);
+                *//*User user = RestFB.getUserInfo(accessToken);*//*
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("questions", questions);
-        modelAndView.addObject("topics", topics);
+        *//*modelAndView.addObject("questions", questions1);
+        modelAndView.addObject("topics", topics);*//*
         modelAndView.setViewName("index");
         return modelAndView;
-    }
-
-    /*@RequestMapping(value = "/angular", method = RequestMethod.GET)
-    public ModelAndView angularjs() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("angular");
-        return modelAndView;
     }*/
 
-    /*@RequestMapping(value = "/ajax_angular", method = RequestMethod.GET)
-    @ResponseBody
-    public String ajax_angular() {
-        List<TopicDTO> topics = new ArrayList<>();
-        return "{\"success\":1}";
-    }*/
-
-    /*@RequestMapping(value = "/js", method = RequestMethod.GET)
-    public ModelAndView demojs() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("demojs");
-        return modelAndView;
-    }*/
-
-    /*@RequestMapping(value = "/ajax_angular", method = RequestMethod.GET)
-    public ResponseEntity<?> ajax_angular() {
-        AjaxResponseBody result = new AjaxResponseBody();
-        List<QuestionDTO> questions = new ArrayList<>();
-        try {
-            questions = questionService.getAllQuestion();
-            *//*Collections.reverse(questions);*//*
-            result.msg = "1";
-            result.result = questions;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ResponseEntity.ok(result);
-    }*/
-
-    @GetMapping(value = "/up_vote" , params = "question_id")
-    public ResponseEntity<?> up_vote(@RequestParam("question_id") Long id) {
-
-        AjaxResponseBody result = new AjaxResponseBody();
-        try {
-            result.msg = "up";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ResponseEntity.ok(result);
-    }
-
-    @GetMapping(value = "/down_vote" , params = "question_id")
-    public ResponseEntity<?> down_vote(@RequestParam("question_id") Long id) {
-
-        AjaxResponseBody result = new AjaxResponseBody();
-        try {
-            result.msg = "down";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ResponseEntity.ok(result);
-    }
 }

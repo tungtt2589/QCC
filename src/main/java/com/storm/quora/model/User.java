@@ -65,6 +65,12 @@ public class User implements Serializable, UserDetails {
     @Column(name = "user_status")
     private long userStatus;
 
+    @Column(name = "facebook_id")
+    private String facebookId;
+
+    @Column(name = "google_id")
+    private String googleId;
+
     public User() {
     }
 
@@ -237,5 +243,21 @@ public class User implements Serializable, UserDetails {
 
     public void setUserStatus(long userStatus) {
         this.userStatus = userStatus;
+    }
+
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
 }

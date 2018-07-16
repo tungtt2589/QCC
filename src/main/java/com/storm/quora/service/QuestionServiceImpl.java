@@ -4,9 +4,10 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.storm.quora.dto.QuestionDTO;
-import com.storm.quora.util.RedisUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -19,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
+    private static final Logger logger = LoggerFactory.getLogger(QuestionService.class);
 
     @Override
     public List<QuestionDTO> getAllQuestion() throws Exception {
@@ -198,7 +200,6 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public int createQuestion(String content, String topicId, String description) throws Exception {
-        int i = 0;
         HttpResponse<JsonNode> response = Unirest.post("http://171.244.3.242:7070/createQuestion")
                 .header("content-type", "application/json")
                 .body("{\n\"content\":\"" + content + "\"," +
@@ -208,7 +209,7 @@ public class QuestionServiceImpl implements QuestionService {
                         "\n\"user_id\": \"1\"\n}")
                 .asJson();
         JSONObject jsonObject = response.getBody().getObject();
-        i = jsonObject.getInt("status");
+        int i = jsonObject.getInt("status");
         return i;
     }
 
@@ -235,5 +236,15 @@ public class QuestionServiceImpl implements QuestionService {
             }
         }
         return diffTime;
+    }
+
+    @Override
+    public int updateVoteQuestion(JSONArray jsonArray) throws Exception {
+        HttpResponse<JsonNode> response = Unirest.post("http://171.244.3.242:7070/updateVoteQuestion")
+                .header("content-type", "application/json")
+                .body(jsonArray.toString())
+                .asJson();
+        JSONObject jsonObject = response.getBody().getObject();
+        return jsonObject.getInt("status");
     }
 }

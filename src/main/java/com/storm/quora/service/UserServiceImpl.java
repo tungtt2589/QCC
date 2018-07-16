@@ -93,6 +93,7 @@ public class UserServiceImpl implements UserService {
                 .body("{\n\"name\":\"" + dto.getName() + "\"," +
                         "\n\"email\": \"" + dto.getEmail() + "\"," +
                         "\n\"username\": \"" + dto.getUsername() + "\"," +
+                        "\n\"google_id\": \"" + dto.getGoogleId() + "\"," +
                         "\n\"password\": \"" + dto.getPassword() + "\"\n}")
                 .asJson();
         UserDTO userDTO = new UserDTO();
@@ -164,7 +165,7 @@ public class UserServiceImpl implements UserService {
                         "\n\"dob\": \"" + dob + "\"," +
                         "\n\"gender\": \"" + gender + "\"," +
                         "\n\"address\": \"" + address + "\"," +
-                        "\n\"job\": \""+job+"\"\n}")
+                        "\n\"job\": \"" + job + "\"\n}")
                 .asJson();
         JSONObject jsonObject = response.getBody().getObject();
         i = jsonObject.getInt("status");

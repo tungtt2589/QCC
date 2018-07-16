@@ -6,85 +6,88 @@
     <meta charset="UTF-8"/>
     <script>
         // This is called with the results from from FB.getLoginStatus().
-        function statusChangeCallback(response) {
-            console.log('statusChangeCallback');
-            console.log(response);
-            // The response object is returned with a status field that lets the
-            // app know the current login status of the person.
-            // Full docs on the response object can be found in the documentation
-            // for FB.getLoginStatus().
-            if (response.status === 'connected') {
-                // Logged into your app and Facebook.
-                testAPI();
-            } else {
-                // The person is not logged into your app or we are unable to tell.
-                document.getElementById('status').innerHTML = 'Please log ' +
-                    'into this app.';
-            }
-        }
-
-        // This function is called when someone finishes with the Login
-        // Button.  See the onlogin handler attached to it in the sample
-        // code below.
-        function checkLoginState() {
-            FB.getLoginStatus(function (response) {
-                statusChangeCallback(response);
-            });
-        }
-
-        window.fbAsyncInit = function () {
-            FB.init({
-                appId: '278025672770919',
-                cookie: true,  // enable cookies to allow the server to access
-                               // the session
-                xfbml: true,  // parse social plugins on this page
-                version: 'v3.0' // use graph api version 2.8
-            });
-
-            // Now that we've initialized the JavaScript SDK, we call
-            // FB.getLoginStatus().  This function gets the state of the
-            // person visiting this page and can return one of three states to
-            // the callback you provide.  They can be:
-            //
-            // 1. Logged into your app ('connected')
-            // 2. Logged into Facebook, but not your app ('not_authorized')
-            // 3. Not logged into Facebook and can't tell if they are logged into
-            //    your app or not.
-            //
-            // These three cases are handled in the callback function.
-
-            FB.getLoginStatus(function (response) {
-                statusChangeCallback(response);
-            });
-        };
-
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s);
-            js.id = id;
-            js.src = 'https://connect.facebook.net/vi_VN/sdk.js';
-            /*js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.0&appId=278025672770919&autoLogAppEvents=1';*/
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-
-        // Here we run a very simple test of the Graph API after login is
-        // successful.  See statusChangeCallback() for when this call is made.
-        function testAPI() {
-            console.log('Welcome!  Fetching your information.... ');
-            FB.api('/me', function (response) {
-                console.log('Successful login for: ' + response.name);
-                document.getElementById('status').innerHTML =
-                    'Thanks for logging in, ' + response.name + '!';
-            });
-        }
+        // function statusChangeCallback(response) {
+        //     console.log('statusChangeCallback');
+        //     console.log(response);
+        //     // The response object is returned with a status field that lets the
+        //     // app know the current login status of the person.
+        //     // Full docs on the response object can be found in the documentation
+        //     // for FB.getLoginStatus().
+        //     if (response.status === 'connected') {
+        //         // Logged into your app and Facebook.
+        //         testAPI();
+        //     } else {
+        //         // The person is not logged into your app or we are unable to tell.
+        //         document.getElementById('status').innerHTML = 'Please log ' +
+        //             'into this app.';
+        //     }
+        // }
+        //
+        // // This function is called when someone finishes with the Login
+        // // Button.  See the onlogin handler attached to it in the sample
+        // // code below.
+        // function checkLoginState() {
+        //     FB.getLoginStatus(function (response) {
+        //         statusChangeCallback(response);
+        //     });
+        // }
+        //
+        // window.fbAsyncInit = function () {
+        //     FB.init({
+        //         appId: '278025672770919',
+        //         cookie: true,  // enable cookies to allow the server to access
+        //                        // the session
+        //         xfbml: true,  // parse social plugins on this page
+        //         version: 'v3.0' // use graph api version 2.8
+        //     });
+        //
+        //     // Now that we've initialized the JavaScript SDK, we call
+        //     // FB.getLoginStatus().  This function gets the state of the
+        //     // person visiting this page and can return one of three states to
+        //     // the callback you provide.  They can be:
+        //     //
+        //     // 1. Logged into your app ('connected')
+        //     // 2. Logged into Facebook, but not your app ('not_authorized')
+        //     // 3. Not logged into Facebook and can't tell if they are logged into
+        //     //    your app or not.
+        //     //
+        //     // These three cases are handled in the callback function.
+        //
+        //     FB.getLoginStatus(function (response) {
+        //         statusChangeCallback(response);
+        //     });
+        // };
+        //
+        // (function (d, s, id) {
+        //     var js, fjs = d.getElementsByTagName(s)[0];
+        //     if (d.getElementById(id)) return;
+        //     js = d.createElement(s);
+        //     js.id = id;
+        //     js.src = 'https://connect.facebook.net/vi_VN/sdk.js';
+        //     /*js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.0&appId=278025672770919&autoLogAppEvents=1';*/
+        //     fjs.parentNode.insertBefore(js, fjs);
+        // }(document, 'script', 'facebook-jssdk'));
+        //
+        // // Here we run a very simple test of the Graph API after login is
+        // // successful.  See statusChangeCallback() for when this call is made.
+        // function testAPI() {
+        //     console.log('Welcome!  Fetching your information.... ');
+        //     FB.api('/me', function (response) {
+        //         console.log('Successful login for: ' + response.name);
+        //         document.getElementById('status').innerHTML =
+        //             'Thanks for logging in, ' + response.name + '!';
+        //     });
+        // }
     </script>
     <script src="https://plus.google.com/js/client:platform.js" async defer></script>
     <script>
         /**
          * Handler for the signin callback triggered after the user selects an account.
          */
+        var access_token = "";
         function onSignInCallback(resp) {
+            debugger;
+            access_token = typeof resp.access_token !== 'undefined' ? resp.access_token : "";
             gapi.client.load('plus', 'v1', apiClientLoaded);
         }
 
@@ -102,20 +105,55 @@
          */
         function handleEmailResponse(resp) {
             if (resp.code != 403) {
-                var primaryEmail;
-                for (var i = 0; i < resp.emails.length; i++) {
-                    if (resp.emails[i].type === 'account') primaryEmail = resp.emails[i].value;
+                debugger;
+                var id = typeof resp.id !== 'undefined' ? resp.id : "";
+                var displayName = typeof resp.displayName !== 'undefined' ? resp.displayName : "";
+                var image_url = typeof resp.image.url !== 'undefined' ? resp.image.url : "";
+
+                var primaryEmail = "";
+                if (typeof resp.emails !== 'undefined') {
+                    for (var i = 0; i < resp.emails.length; i++) {
+                        if (resp.emails[i].type === 'account') primaryEmail = resp.emails[i].value;
+                    }
                 }
+
+
                 /*document.getElementById('responseContainer').value = 'Primary email: ' + primaryEmail + '\n\nFull Response:\n' + JSON.stringify(resp);*/
-                window.location = '/?email=' + primaryEmail;
+                /*window.location = '/?email=' + primaryEmail;*/
+
+                var profile = {};
+                profile["id"] = id;
+                profile["display_name"] = displayName;
+                profile["email"] = primaryEmail;
+                profile["image_url"] = image_url;
+                profile["access_token"] = access_token;
+
+                $.ajax({
+                    url: "/login_google",
+                    type: 'POST',
+                    contentType: "application/json",
+                    data: JSON.stringify(profile),
+                    beforeSend: function () {
+
+                    },
+                    headers: {},
+                    success: function (data) {
+                        var message = data.msg;
+                        // alert(message);
+                        window.location="http://localhost:8888/";
+                    },
+                    error: function (data) {
+                        // alert("Đã có lỗi xảy ra. Vui lòng thử lại !");
+                    }
+                });
             }
         }
     </script>
-    <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"/>
+    <!--<link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"/>-->
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <title>Trang chủ</title>
     <style>
-        .fb_iframe_widget span{
+        .fb_iframe_widget span {
 
         }
     </style>
@@ -203,9 +241,9 @@
                         <div class="row" style="text-align: center; margin-top: 50px">
                             <!--<div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
 -->
-                            <fb:login-button size="xlarge" scope="public_profile,email" onlogin="checkLoginState();">
-                                Sign in
-                            </fb:login-button>
+                            <!--<fb:login-button size="xlarge" scope="public_profile,email" onlogin="checkLoginState();">-->
+                                <!--Sign in-->
+                            <!--</fb:login-button>-->
 
                             <div id="status">
                             </div>
@@ -214,11 +252,12 @@
                         <div class="row" style="text-align: center; margin-top: 50px">
                             <div id="gConnect" class="button">
                                 <button class="g-signin"
-                                        data-clientid="930932659996-9jvtvg7igq7fm5574b2f5qlbdbm3vh9d.apps.googleusercontent.com"
-                                        data-callback="onSignInCallback"
-                                        data-theme="dark"
-                                        data-size="large"
-                                        data-cookiepolicy="single_host_origin">
+                                    data-clientid="930932659996-9jvtvg7igq7fm5574b2f5qlbdbm3vh9d.apps.googleusercontent.com"
+                                    data-callback="onSignInCallback"
+                                    data-theme="dark"
+                                    data-size="large"
+                                        data-scope="profile email"
+                                    data-cookiepolicy="single_host_origin">
                                 </button>
                                 <!-- Textarea for outputting data -->
                                 <div id="response" class="hide">

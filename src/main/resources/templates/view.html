@@ -12,7 +12,7 @@
         js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.0&appId=278025672770919&autoLogAppEvents=1';
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-    <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"/>
+    <!--<link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"/>-->
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <!--<link th:href="@{/bootstrap.css}" rel="stylesheet" media="screen">-->
     <title>Chi tiết Topic</title>
@@ -25,12 +25,13 @@
             vertical-align: middle !important;
         }
     </style>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 </head>
 <body>
 <div id="fb-root"></div>
 
 <div layout:fragment="content">
-    <div class="post beforepagination">
+    <div id="divQuestion" class="post beforepagination">
         <div class="topwrap">
             <div class="userinfo pull-left">
                 <div class="avatar">
@@ -50,8 +51,18 @@
         <div class="postinfobot">
 
             <div class="likeblock pull-left">
-                <a href="#" class="up"><i class="fa fa-thumbs-o-up"></i>25</a>
-                <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i>3</a>
+                <!--<a href="#" class="up"><i class="fa fa-thumbs-o-up"></i>25</a>
+                <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i>3</a>-->
+                <a th:data="${question.questionId}" class="up">
+                    <i class="fa fa-thumbs-o-up"></i>
+                    <span th:class="'upCount_'+${question.questionId}"
+                          th:text="${question.upCount}">55</span>
+                </a>
+                <a th:data="${question.questionId}" class="down">
+                    <i class="fa fa-thumbs-o-down"></i>
+                    <span th:class="'downCount_'+${question.questionId}"
+                          th:text="${question.downCount}">12</span>
+                </a>
             </div>
 
             <div class="prev pull-left">
@@ -76,49 +87,63 @@
         </div>
     </div>
 
-    <table class="table" th:each="answer : ${answers}">
-        <tr>
-    <!-- POST -->
-    <div class="post">
-        <div class="topwrap">
-            <div class="userinfo pull-left">
-                <div class="avatar">
-                    <img src="images/avatar3.jpg" alt="" />
-                    <div class="status red">&nbsp;</div>
-                </div>
+    <div id="lstAnswer">
+        <table class="table">
+            <tr th:each="answer : ${answers}">
+                <!-- POST -->
+                <div class="post">
+                    <div class="topwrap">
+                        <div class="userinfo pull-left">
+                            <div class="avatar">
+                                <img src="images/avatar3.jpg" alt=""/>
+                                <div class="status red">&nbsp;</div>
+                            </div>
 
-                <div class="icons">
-                </div>
-            </div>
-            <div class="posttext pull-left">
-                <p th:text="${answer.content}"></p>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-        <div class="postinfobot">
+                            <div class="icons">
+                            </div>
+                        </div>
+                        <div class="posttext pull-left">
+                            <p th:text="${answer.content}"></p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="postinfobot">
 
-            <div class="likeblock pull-left">
-                <a href="#" class="up"><i class="fa fa-thumbs-o-up"></i>55</a>
-                <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i>12</a>
-            </div>
+                        <div class="likeblock pull-left">
+                            <!--<a href="#" class="up"><i class="fa fa-thumbs-o-up"></i>55</a>
+                            <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i>12</a>-->
+                            <a th:data="${answer.answerId}" class="up">
+                                <i class="fa fa-thumbs-o-up"></i>
+                                <span th:class="'upCountAnswer_'+${answer.answerId}"
+                                      th:text="${answer.upCount}">55</span>
+                            </a>
+                            <a th:data="${answer.answerId}" class="down">
+                                <i class="fa fa-thumbs-o-down"></i>
+                                <span th:class="'downCountAnswer_'+${answer.answerId}"
+                                      th:text="${answer.downCount}">12</span>
+                            </a>
+                        </div>
 
-            <div class="prev pull-left">
-                <a href="#"><i class="fa fa-reply"></i></a>
-            </div>
+                        <div class="prev pull-left">
+                            <a href="#"><i class="fa fa-reply"></i></a>
+                        </div>
 
-            <div class="posted pull-left"><i class="fa fa-clock-o"></i><span th:text="${answer.diffTime}"></div>
+                        <div class="posted pull-left"><i class="fa fa-clock-o"></i><span th:text="${answer.diffTime}">
+                        </div>
 
-            <div class="next pull-right">
-                <a href="#"><i class="fa fa-share"></i></a>
+                        <div class="next pull-right">
+                            <a href="#"><i class="fa fa-share"></i></a>
 
-                <a href="#"><i class="fa fa-flag"></i></a>
-            </div>
+                            <a href="#"><i class="fa fa-flag"></i></a>
+                        </div>
 
-            <div class="clearfix"></div>
-        </div>
-    </div><!-- POST -->
-        </tr>
-    </table>
+                        <div class="clearfix"></div>
+                    </div>
+                </div><!-- POST -->
+            </tr>
+        </table>
+    </div>
+
 
     <!-- POST -->
     <div class="post">
@@ -126,7 +151,7 @@
             <div class="topwrap">
                 <div class="userinfo pull-left">
                     <div class="avatar">
-                        <img src="images/avatar4.jpg" alt="" />
+                        <img src="images/avatar4.jpg" alt=""/>
                         <div class="status red">&nbsp;</div>
                     </div>
                     <div class="icons">
@@ -143,12 +168,14 @@
             <div class="postinfobot">
 
                 <div class="notechbox pull-left">
-                    <input type="checkbox" name="note" id="note" class="form-control" />
+                    <input type="checkbox" name="note" id="note" class="form-control"/>
                 </div>
 
                 <div class="pull-right postreply">
                     <div class="pull-left smile"><a href="#"><i class="fa fa-smile-o"></i></a></div>
-                    <div class="pull-left"><button type="submit" class="btn btn-primary">Đăng</button></div>
+                    <div class="pull-left">
+                        <button type="submit" class="btn btn-primary">Đăng</button>
+                    </div>
                     <div class="clearfix"></div>
                 </div>
                 <div class="clearfix"></div>
@@ -156,6 +183,147 @@
         </form>
     </div><!-- POST -->
 
+    <script>
+        $("#divQuestion").on('click', '.up', function (e) {
+            e.stopPropagation();
+            var questionId = $(this).attr('data');
+
+            $.ajax({
+                url: "/up_vote?question_id=" + questionId,
+                method: 'GET',
+                beforeSend: function () {
+
+                },
+                headers: {},
+                success: function (data) {
+                    var message = data.msg;
+                    if (message == 'up') {
+                        /*var upCount = $('.upCount_' + questionId).html();
+                        upCount = parseInt(upCount) + 1;
+                        $('.upCount_' + questionId).html(upCount);*/
+                        $('.upCount_' + questionId).html(data.upCount);
+                        $('.downCount_' + questionId).html(data.downCount);
+                    }
+                    else if (message == 'login_require') {
+                        alert("Bạn chưa đăng nhập. Vui lòng đăng nhập để tiếp tục");
+                        return false;
+                    }
+                    else {
+                        alert(message);
+                        return false;
+                    }
+                },
+                error: function (data) {
+                    alert("Đã có lỗi xảy ra. Vui lòng thử lại !");
+                },
+            });
+        });
+
+        $("#divQuestion").on('click', '.down', function (e) {
+            e.stopPropagation();
+            var questionId = $(this).attr('data');
+
+            $.ajax({
+                url: "/down_vote?question_id=" + questionId,
+                method: 'GET',
+                beforeSend: function () {
+
+                },
+                headers: {},
+                success: function (data) {
+                    var message = data.msg;
+                    if (message == 'down') {
+                        /*var downCount = $('.downCount_' + questionId).html();
+                        downCount = parseInt(downCount) - 1;
+                        $('.downCount_' + questionId).html(downCount);*/
+                        $('.upCount_' + questionId).html(data.upCount);
+                        $('.downCount_' + questionId).html(data.downCount);
+                    }
+                    else if (message == 'login_require') {
+                        alert("Bạn chưa đăng nhập. Vui lòng đăng nhập để tiếp tục");
+                        return false;
+                    }
+                    else {
+                        alert(message);
+                        return false;
+                    }
+                },
+                error: function (data) {
+                    alert("Đã có lỗi xảy ra. Vui lòng thử lại !");
+                },
+            });
+        });
+
+        $("#lstAnswer").on('click', '.up', function (e) {
+            e.stopPropagation();
+            var answerId = $(this).attr('data');
+
+            $.ajax({
+                url: "/up_vote_answer?answer_id=" + answerId,
+                method: 'GET',
+                beforeSend: function () {
+
+                },
+                headers: {},
+                success: function (data) {
+                    var message = data.msg;
+                    if (message == 'up') {
+                        /*var upCount = $('.upCount_' + questionId).html();
+                        upCount = parseInt(upCount) + 1;
+                        $('.upCount_' + questionId).html(upCount);*/
+                        $('.upCountAnswer_' + answerId).html(data.upCount);
+                        $('.downCountAnswer_' + answerId).html(data.downCount);
+                    }
+                    else if (message == 'login_require') {
+                        alert("Bạn chưa đăng nhập. Vui lòng đăng nhập để tiếp tục");
+                        return false;
+                    }
+                    else {
+                        alert(message);
+                        return false;
+                    }
+                },
+                error: function (data) {
+                    alert("Đã có lỗi xảy ra. Vui lòng thử lại !");
+                },
+            });
+        });
+
+        $("#lstAnswer").on('click', '.down', function (e) {
+            e.stopPropagation();
+            var answerId = $(this).attr('data');
+
+            $.ajax({
+                url: "/down_vote_answer?answer_id=" + answerId,
+                method: 'GET',
+                beforeSend: function () {
+
+                },
+                headers: {},
+                success: function (data) {
+                    var message = data.msg;
+                    if (message == 'down') {
+                        /*var downCount = $('.downCount_' + questionId).html();
+                        downCount = parseInt(downCount) - 1;
+                        $('.downCount_' + questionId).html(downCount);*/
+                        $('.upCountAnswer_' + answerId).html(data.upCount);
+                        $('.downCountAnswer_' + answerId).html(data.downCount);
+                    }
+                    else if (message == 'login_require') {
+                        alert("Bạn chưa đăng nhập. Vui lòng đăng nhập để tiếp tục");
+                        return false;
+                    }
+                    else {
+                        alert(message);
+                        return false;
+                    }
+                },
+                error: function (data) {
+                    alert("Đã có lỗi xảy ra. Vui lòng thử lại !");
+                },
+            });
+        });
+    </script>
 </div>
 </body>
 </html>

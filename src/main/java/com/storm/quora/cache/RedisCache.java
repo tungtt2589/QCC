@@ -13,8 +13,8 @@ public class RedisCache {
             if (cacheManager == null) {
                 System.out.println("Cache Connection is creating...");
                 cacheManager = CacheConnection.create(Constant.CACHE_URI).getManager();
+                System.out.println("Cache Connection is created!");
             }
-            System.out.println("Cache Connection is created!");
             return cacheManager;
         }
     }
