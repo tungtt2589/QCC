@@ -20,6 +20,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -135,7 +136,38 @@ public class UserController {
         User user = UserAuthentication.getCurrentUser();
         logger.info(new Gson().toJson(user));
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("user",user);
         modelAndView.setViewName("userInfo");
+        return modelAndView;
+    }
+
+    @PostMapping("/userInfo/update")
+    public ModelAndView showPage(@ModelAttribute("updateUser") UserDTO userDTO, RedirectAttributes redirectAttributes) throws Exception {
+        ModelAndView modelAndView = new ModelAndView();
+//        if (questionDTO.getContent().equals("")) {
+//            redirectAttributes.addFlashAttribute("message", "Câu hỏi không được để trống");
+//            redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+//        } else if (questionDTO.getTopicId() == 0) {
+//            redirectAttributes.addFlashAttribute("message", "Chủ đề không được để trống");
+//            redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+//        } else if (questionDTO.getTopicId() == 0 && questionDTO.getContent().equals("")) {
+//            redirectAttributes.addFlashAttribute("message", "Chủ đề và câu  không được để trống");
+//            redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+//        } else {
+            User user = UserAuthentication.getCurrentUser();
+            int i = userService.updateUser(String.valueOf(user.getUserId()),userDTO.getName(), userDTO.getEmail(),userDTO.getPhoneNumber(),userDTO.getDob(),userDTO.getGender(),userDTO.getAddress(),userDTO.getJob());
+            if (i == 1) {
+                System.out.println("Success");
+                redirectAttributes.addFlashAttribute("message", "Success");
+                redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+            } else {
+                System.out.println("Not successs");
+                redirectAttributes.addFlashAttribute("message", "Failed");
+                redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+            }
+//        }
+
+        modelAndView.setViewName("redirect:/userInfo");
         return modelAndView;
     }
 

@@ -22,34 +22,39 @@
                     <img src="assets/img/250x250.png" class="img-rounded img-responsive" />
                 </div>
                 <div class="col-md-8">
-                    <div class="form-group col-md-8">
+                    <form th:action="@{/userInfo/update}" method="post">
+                    <div class="form-group col-md-8" th:object="${user}">
                         <!--<p th:text="${user.name}"></p>-->
                         <h3>Thông tin cá nhân</h3>
                         <br />
                         <label>Họ và tên</label>
-                        <input type="text" class="form-control" placeholder="Demouser">
+                        <input type="text" th:name="name" class="form-control" placeholder="Demouser" th:value="${user.name}">
                         <br />
                         <label>Email</label>
-                        <input type="text" class="form-control" placeholder="Demouser">
+                        <input type="text" th:name="email" class="form-control" placeholder="Demouser" th:value="${user.email}">
                         <br />
                         <label>Số điện thoại</label>
-                        <input type="text" class="form-control" placeholder="Demouser">
+                        <input type="text" th:name="phoneNumber" class="form-control" placeholder="Demouser" th:value="${user.phoneNumber}">
                         <br />
                         <label>Ngày tháng năm sinh</label>
-                        <input type="date" class="form-control" placeholder="Demouser">
+                        <input type="date" th:name="dob" class="form-control" placeholder="Demouser" th:value="${user.dob}">
                         <br />
                         <label>Giới tính</label>
-                        <input type="text" class="form-control" placeholder="Demouser">
+                        <input type="text" th:name="gender" class="form-control" placeholder="Demouser" th:value="${user.gender}">
                         <br />
                         <label>Địa chỉ</label>
-                        <input type="text" class="form-control" placeholder="Demouser">
+                        <input type="text" th:name="address" class="form-control" placeholder="Demouser" th:value="${user.address}">
                         <br />
                         <label>Nghề nghiệp</label>
-                        <input type="text" class="form-control" placeholder="Demouser">
+                        <input type="text" th:name="job" class="form-control" placeholder="Demouser" th:value="${user.job}">
                         <br />
                         <br>
-                        <a href="#" class="btn btn-warning">Cập nhật</a>
+                        <button type="submit" class="btn btn-primary"
+                                style="background-color: #1abc9c">Cập nhật
+                        </button>
+                        <!--<a href="#" class="btn btn-warning">Cập nhật</a>-->
                     </div>
+                    </form>
                 </div>
             </div>
             <!-- ROW END -->

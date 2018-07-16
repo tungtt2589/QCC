@@ -8,5 +8,6 @@ public interface UserService {
 
     UserDTO register(UserDTO userDTO) throws Exception;
 
-    int updateUser(String name, String email, String phone, String dob, String gender, String address, String job) throws Exception;
+    int updateUser(String userId, String name, String email, String phone, String dob, String gender, String address, String job) throws Exception;
+
 }
